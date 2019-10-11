@@ -1,8 +1,7 @@
 module.exports = {
     title: 'Ruios',
-    description: 'React and redux based, lightweight and elm-style framework.',
+    description: 'Blog of Ruios.',
     dest: 'dist/',
-    rootDir: 'docs/',
     themeConfig: {
       lastUpdated: 'Last Updated',
       nav: [
@@ -14,7 +13,8 @@ module.exports = {
             title: 'JS基础',
             collapsable: false,
             children: [
-                'generator'
+                'generator函数的使用',
+                'javascript装饰器的使用'
             ],
           },
         ],
