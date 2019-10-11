@@ -8,7 +8,7 @@ script:
     pull && yarn cache clean && yarn install && yarn run build'
 before_install:
 - openssl aes-256-cbc -K $encrypted_ddc18cf90a2c_key -iv $encrypted_ddc18cf90a2c_iv
-  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+  -in id_rsa.enc -out ~/.ssh/id_rsa -d
 addons:
   ssh_known_hosts:
   - 139.159.134.18
