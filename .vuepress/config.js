@@ -5,7 +5,7 @@ module.exports = {
     themeConfig: {
       lastUpdated: 'Last Updated',
       nav: [
-        { text: 'JS基础', link: '/js-basic/' },
+                { text: 'JS基础', link: '/js-basic/generator函数的使用' },
       ],
       sidebar: {
         '/js-basic/': [
