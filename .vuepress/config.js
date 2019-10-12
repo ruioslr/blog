@@ -2,15 +2,16 @@ module.exports = {
     title: 'Ruios',
     description: 'Blog of Ruios.',
     dest: 'dist/',
+    plugins: ['@vuepress/back-to-top'],
     themeConfig: {
       lastUpdated: 'Last Updated',
       nav: [
-                { text: 'JS基础', link: '/js-basic/generator函数的使用' },
+                { text: 'Javascript', link: '/javascript/generator函数的使用' },
       ],
       sidebar: {
-        '/js-basic/': [
+        '/javascript/': [
           {
-            title: 'JS基础',
+            title: 'Javascript',
             collapsable: false,
             children: [
                 'generator函数的使用',
