@@ -7,6 +7,7 @@ module.exports = {
       lastUpdated: 'Last Updated',
       nav: [
                 { text: 'Javascript', link: '/javascript/generator函数的使用' },
+                {text: '前端工具'}
       ],
       sidebar: {
         '/javascript/': [
