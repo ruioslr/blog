@@ -134,6 +134,15 @@ function ppValidateLogin (WrappedComponent) {
 }
 ```
 
+**通常，高阶组件在使用时可以使用装饰器的形式** 类似：
+
+``` js
+@ppValidateLogin
+class XX extends React.Component{
+    ///
+}
+```
+
 
 
 
