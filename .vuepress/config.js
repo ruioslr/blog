@@ -26,7 +26,9 @@ module.exports = {
             title: 'React',
             collapsable: false,
             children: [
-                'React高阶组件深入'
+                'React高阶组件深入',
+                'React组件逻辑复用模式',
+                'React Hooks浅入'
             ],
           },
         ],
