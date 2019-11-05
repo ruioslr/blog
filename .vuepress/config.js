@@ -21,6 +21,18 @@ module.exports = {
             ],
           },
         ],
+        '/前端工具/': [
+          {
+            title: '前端工具',
+            collapsable: false,
+            children: [
+                {
+                  tit
+                },
+                'javascript装饰器的使用'
+            ],
+          },
+        ],
         '/react/': [
           {
             title: 'React',
