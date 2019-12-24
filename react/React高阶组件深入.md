@@ -140,6 +140,7 @@ function ppValidateLogin (WrappedComponent) {
 @ppValidateLogin
 class XX extends React.Component{
     /// do something
+    
 }
 ```
 
