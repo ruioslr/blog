@@ -127,6 +127,8 @@ console.log(originObj2 === proxyObj2); // false
 
 ## Reflect
 
+基本上与Proxy 一一对应
+
 ## Iterator
 
 ## Promise
