@@ -68,6 +68,63 @@ console.log(map1.values()); // 是一个具有 iterator 的类数组 （遍历�
 
 ## Proxy
 
+## Proxy 
+
+* 当handler 是个空对象时， 表现为，无论是给 proxyObj 或者 originObj 赋值还是删除，两个 对象都会同步赋值， 但是 却占据不同的内存空间
+
+```js
+onst originObj1 = {
+    a: 1,
+    b: 2,
+    c: 3,
+}
+
+const handler1 = {
+    get: (target, propKey) => {
+        // target 是源对象，propKey 是属性key
+        console.log(target, propKey)
+    } 
+};
+const proxyObj1 = new Proxy(originObj1, handler1);
+
+// 当handler 是个空对象时， proxyObj 的表现如何
+
+const originObj2 = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: '我要被删除了'
+}
+
+const handler2 = {};
+const proxyObj2 = new Proxy(originObj2, handler2);
+
+proxyObj2.a = 2;
+delete proxyObj2.d;
+originObj2.c = 4;
+
+console.log('originObj2', originObj2) // originObj2 { a: 2, b: 2, c: 4 }
+console.log('proxyObj2', proxyObj2) // proxyObj2 { a: 2, b: 2, c: 4 }
+console.log(originObj2 === proxyObj2); // false
+
+// 表现为，无论是给 proxyObj 或者 originObj 赋值还是删除，两个 对象都会同步赋值， 但是 却占据不同的内存空间
+
+// Proxy的的第一个参数可以是函数（函数也是对象）
+```
+
+### Proxy 支持的操作
+
+* get(target, propKey, receiver) 拦截对象的属性读取操作
+* set(target, propKey, value, receiver)  拦截对象的属性设置操作
+* has(target, propKey) 拦截操作：propKey in proxy，返回一个布尔值
+* deleteProperty(target, propKey)：拦截delete proxy.xxx的操作，返回一个布尔值
+...
+* apply(target, object, args)：拦截 Proxy 实例作为函数调用的操作，比如proxy(...args)、proxy.call(object, ...args)、proxy.apply(...)
+* construct(target, args)：拦截 Proxy 实例作为构造函数调用的操作，比如new proxy(...args)
+ 
+***set操作时，第四个参数，和 get 的 第三个参数 一样，一般指向 Proxy 实***
+
+
 ## Reflect
 
 ## Iterator
