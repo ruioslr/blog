@@ -5,3 +5,7 @@
 
 [ReactFiberReconciler.js]{scheduleWork -> scheduleWorkToRoot -> markPendingPriorityLevel(不知道是啥) -> requestWork -> scheduleCallbackWithExpirationTime}
 
+
+## beginWork
+
+beginWork 的作用
