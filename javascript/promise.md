@@ -7,5 +7,7 @@ Promise 有三个状态 pending, fullild, rejected, 只能由 pending 向其他�
 
 ```js
 
+
+
 ```
 
