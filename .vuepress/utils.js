@@ -1,5 +1,6 @@
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
+const { get } = require('http');
 
 const rootPath = path.resolve(__dirname, '../');
 const excludeDir = ['.idea', '.vuepress', 'dist', 'node_modules', '.git']
@@ -10,10 +11,7 @@ const getItems = (dir) => {
     const files = fs.readdirSync(dir).filter(_ => fs.statSync(path.resolve(rootPath, dir) + '/' + _).isFile()).map(_ => _.slice(0, -3))
     const dirs = fs.readdirSync(dir).filter(_ => fs.statSync(path.resolve(rootPath, dir) + '/' + _).isDirectory())
 
-    if(dir === 'javascript'){
-        console.log('files:', files)
-    }
-
+    // 文件
     files.forEach(filename => {
         if(filename.toLowerCase() === 'readme'){
             res.push({
@@ -27,6 +25,15 @@ const getItems = (dir) => {
             path: `/${dir}/${filename}`,
         })
     });
+
+    // 嵌套目录
+    dirs.forEach(dirname => {
+        res.push({
+            title: dirname,
+            children: getItems(`${dir}/${dirname}`)
+        })
+    })
+
 
     return res;
 }
