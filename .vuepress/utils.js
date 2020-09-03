@@ -51,25 +51,29 @@ const getSidebar =  () => {
 }
 
 const getNav = () => {
-    const allFiles = fs.readdirSync(rootPath).filter(_ => !excludeDir.includes(_));
-    const dirs = allFiles.filter(_ => fs.statSync(rootPath + '/' + _).isDirectory());
-    const res = [];
+    // const allFiles = fs.readdirSync(rootPath).filter(_ => !excludeDir.includes(_));
+    // const dirs = allFiles.filter(_ => fs.statSync(rootPath + '/' + _).isDirectory());
+    // const res = [];
 
-    dirs.forEach(dir => {
-        let firstFileName = fs.readdirSync(rootPath + '/' + dir)[0];
-        // readme 不需要 路径名
-        if(firstFileName && firstFileName.toLowerCase() === 'readme.md'){
-            firstFileName = ''
-        }
+    // dirs.forEach(dir => {
+    //     let firstFileName = fs.readdirSync(rootPath + '/' + dir)[0];
+    //     // readme 不需要 路径名
+    //     if(firstFileName && firstFileName.toLowerCase() === 'readme.md'){
+    //         firstFileName = ''
+    //     }
 
-        // 这里先将多层的文件夹忽略（文件夹名没有 .md）
-        if(!firstFileName.toLowerCase().includes('.md')){
-            return;
-        }
+    //     // 这里先将多层的文件夹忽略（文件夹名没有 .md）
+    //     if(!firstFileName.toLowerCase().includes('.md')){
+    //         return;
+    //     }
 
-        res.push({text: dir, link: `/${dir}/${firstFileName}`})
-    })
-    return res;
+    //     res.push({text: dir, link: `/${dir}/${firstFileName}`})
+    // })
+    // return res;
+    return [
+        { text: 'Github', link: 'https://github.com/ruioslr/blog' }
+    ]
+
 }
 module.exports = {
     getSidebar,
