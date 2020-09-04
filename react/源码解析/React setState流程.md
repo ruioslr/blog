@@ -238,26 +238,4 @@ function performWorkOnRoot(
 
 在这个方法中最重要的是会进入 *renderRoot* 方法， 这个方法会通过 *workLoop* 方法先向下遍历整个树，这个遍历会在到达叶子节点后向上回溯，下面会具体讨论这个遍历。
 
-## workLoop 中的 ‘递’和‘归’
-
-这是*workLoop*的方法体
-
-```js
-function workLoop(isYieldy) {
-  // 对 nextUnitOfWork 循环进行判断，直到没有 nextUnitOfWork
-  if (!isYieldy) {
-    // Flush work without yielding
-    // 一开始进来 nextUnitOfWork 是 root，每次执行 performUnitOfWork 后
-    // 都会生成下一个工作单元
-    while (nextUnitOfWork !== null) {
-      nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
-    }
-  } else {
-    // Flush asynchronous work until there's a higher priority event
-    while (nextUnitOfWork !== null && !shouldYield()) {
-      nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
-    }
-  }
-}
-```
 
