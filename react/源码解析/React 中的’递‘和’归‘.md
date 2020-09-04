@@ -24,4 +24,61 @@ function workLoop(isYieldy) {
   }
 }
 ```
+在*workLoop*中，会根据是否可以中断来循环执行*performUnitOfWork*。
+这是performUnitOfWork
 
+```js
+function performUnitOfWork(workInProgress: Fiber): Fiber | null {
+  // The current, flushed, state of this fiber is the alternate.
+  // Ideally nothing should rely on this, but relying on it here
+  // means that we don't need an additional field on the work in
+  // progress.
+  // 获得 fiber 的替身，调和这一阶段都是在替身上完成的
+  // 然后直接看 beginWork
+  const current = workInProgress.alternate;
+
+  // See if beginning this work spawns more work.
+  startWorkTimer(workInProgress);
+
+
+  let next;
+  if (enableProfilerTimer) {
+    if (workInProgress.mode & ProfileMode) {
+      startProfilerTimer(workInProgress);
+    }
+    next = beginWork(current, workInProgress, nextRenderExpirationTime);
+    workInProgress.memoizedProps = workInProgress.pendingProps;
+
+    if (workInProgress.mode & ProfileMode) {
+      // Record the render duration assuming we didn't bailout (or error).
+      stopProfilerTimerIfRunningAndRecordDelta(workInProgress, true);
+    }
+  } else {
+    // 开始工作
+    // begin work的遍历 主要是 对子节点进行调和生成新的 WorkInProgress Fiber Tree
+    // ：找到 可以复用的fiber, 以及对fiber其他fiber打上对应的 Effect
+    next = beginWork(current, workInProgress, nextRenderExpirationTime);
+    workInProgress.memoizedProps = workInProgress.pendingProps;
+  }
+
+
+  if (next === null) {
+    // If this doesn't spawn new work, complete the current work.
+    next = completeUnitOfWork(workInProgress);
+  }
+
+  ReactCurrentOwner.current = null;
+
+  return next;
+}
+
+```
+
+在*performUnitOfWork*中，重要的是调用*beginWork*被*completeUnitOfWork*这两个方法，在*beginWork*中：先会对节点的优先级进行判断，如果优先级不够够，则直接调用*bailoutOnAlreadyFinishedWork*跳过循环，否则，根据组件类型（fiber.tag）进行更新（下一章会详解几点更新），并返回下一个需要更新的子节点（fiber.child），直到没有子节点(叶子节点)；
+```js
+  if (next === null) {
+    // If this doesn't spawn new work, complete the current work.
+    next = completeUnitOfWork(workInProgress);
+  }
+```
+在遍历到叶子节点后，会进入*completeUnitOfWork*方法：该方法会将产生的更新挂载在fiber的effect链上，并打上effectTag标记,最后返回 "进入*beginWork*时传入的fiber的**sibling**",开始对其sibling进行*beginWork*的遍历。
