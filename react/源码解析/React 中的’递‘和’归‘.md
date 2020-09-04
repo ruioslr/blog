@@ -74,7 +74,7 @@ function performUnitOfWork(workInProgress: Fiber): Fiber | null {
 
 ```
 
-在*performUnitOfWork*中，重要的是调用*beginWork*被*completeUnitOfWork*这两个方法，在*beginWork*中：先会对节点的优先级进行判断，如果优先级不够够，则直接调用*bailoutOnAlreadyFinishedWork*跳过循环，否则，根据组件类型（fiber.tag）进行更新（下一章会详解几点更新），并返回下一个需要更新的子节点（fiber.child），直到没有子节点(叶子节点)；
+在*performUnitOfWork*中，重要的是调用*beginWork*被*completeUnitOfWork*这两个方法，在*beginWork*中：先会对节点的优先级进行判断，如果优先级不够够，则直接调用*bailoutOnAlreadyFinishedWork*跳过循环，否则，根据组件类型（fiber.tag）进行更新（下一章会详解更新），并返回下一个需要更新的子节点（fiber.child），直到没有子节点(叶子节点)；
 ```js
   if (next === null) {
     // If this doesn't spawn new work, complete the current work.
