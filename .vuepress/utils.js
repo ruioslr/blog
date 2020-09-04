@@ -42,6 +42,8 @@ const getSidebar =  () => {
     const allFiles = fs.readdirSync(rootPath).filter(_ => !excludeDir.includes(_));
     const dirs = allFiles.filter(_ => fs.statSync(rootPath + '/' + _).isDirectory());
     dirs.forEach(dir => {
+        // guide 不放入侧边栏
+        if(dir === 'guide') return;
         res.push({
             title: dir,
             children: getItems(dir)
