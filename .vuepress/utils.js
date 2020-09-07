@@ -3,8 +3,7 @@ const path = require('path');
 const { get } = require('http');
 
 const rootPath = path.resolve(__dirname, '../');
-const excludeDir = ['.idea', '.vuepress', 'dist', 'node_modules', '.git']
-
+const excludeDir = ['.idea', '.vuepress', 'dist', 'node_modules', '.git', 'guide', 'asserts']
 
 const getItems = (dir) => {
     const res = [];
@@ -42,8 +41,6 @@ const getSidebar =  () => {
     const allFiles = fs.readdirSync(rootPath).filter(_ => !excludeDir.includes(_));
     const dirs = allFiles.filter(_ => fs.statSync(rootPath + '/' + _).isDirectory());
     dirs.forEach(dir => {
-        // guide 不放入侧边栏
-        if(dir === 'guide') return;
         res.push({
             title: dir,
             children: getItems(dir)
