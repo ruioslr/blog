@@ -72,8 +72,8 @@ const getNav = () => {
     return [
         { text: 'Github', link: 'https://github.com/ruioslr/blog' }
     ]
-
 }
+
 module.exports = {
     getSidebar,
     getNav

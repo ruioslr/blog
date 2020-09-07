@@ -1,3 +1,11 @@
+---
+title: React高阶组件深入
+categories:
+ - React
+tags:
+ - React
+---
+
 # React高阶组件深入
 
 高阶组件是React封装公共逻辑的常用方式, [react-component](https://react-component.github.io/badgeboard), [React-Redux](https://https://github.com/reduxjs/react-redux), 等都大量使用了高阶组件。

@@ -1,3 +1,11 @@
+---
+title: ES6+ 新的数据结构
+categories:
+ - Javascript
+tags:
+ - Javascript
+---
+
 # ES6+ 新的数据结构
 
 ## Set

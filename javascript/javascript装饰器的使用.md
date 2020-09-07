@@ -1,3 +1,11 @@
+---
+title: Javascript 装饰器的使用
+categories:
+ - Javascript
+tags:
+ - Javascript
+---
+
 # Javascript 装饰器的使用
 随着ES6的广泛使用，class 类的概念在javascript中出现，而在某些场景下，需要在不改变类或者类的属性的情况下扩展一些功能，于是装饰器出现了。
 

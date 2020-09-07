@@ -1,3 +1,11 @@
+---
+title: TS 中常用的类型
+categories:
+ - TypeScript
+tags:
+ - TypeScript
+---
+
 # TS 中常用的类型
 
 ## 常用的关键字

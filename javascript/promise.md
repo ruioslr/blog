@@ -1,3 +1,12 @@
+---
+title: Promise
+categories:
+ - Javascript
+tags:
+ - Javascript
+ - Promise
+---
+
 # Promise
 
 ### Promise是什么
