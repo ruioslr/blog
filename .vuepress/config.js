@@ -12,6 +12,7 @@ module.exports = {
       lastUpdated: 'Last Updated',
       nav: getNav(),
       sidebar: getSidebar(),
+      sidebarDepth: 5,
       blogConfig: {
         category: {
           location: -2,    
