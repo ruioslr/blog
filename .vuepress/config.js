@@ -7,6 +7,8 @@ module.exports = {
     plugins: ['@vuepress/back-to-top'],
     themeConfig: {
       type: 'blog',
+      authorAvatar: '/logo.jpg',
+      logo: '/logo.jpg',
       lastUpdated: 'Last Updated',
       nav: getNav(),
       sidebar: getSidebar(),
