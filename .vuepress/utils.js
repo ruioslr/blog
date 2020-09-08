@@ -3,7 +3,7 @@ const path = require('path');
 const { get } = require('http');
 
 const rootPath = path.resolve(__dirname, '../');
-const excludeDir = ['.idea', '.vuepress', 'dist', 'node_modules', '.git', 'guide', 'asserts']
+const excludeDir = ['.idea', '.vuepress', 'dist', 'node_modules', '.git', 'guide', 'asserts', 'flutter']
 
 const getItems = (dir) => {
     const res = [];
@@ -48,6 +48,7 @@ const getSidebar =  () => {
     })
     return res;
 }
+
 
 const getNav = () => {
     // const allFiles = fs.readdirSync(rootPath).filter(_ => !excludeDir.includes(_));

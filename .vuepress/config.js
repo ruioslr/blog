@@ -1,8 +1,8 @@
 const { getSidebar, getNav } = require('./utils');
 module.exports = {
     theme: 'reco',
-    title: 'Blog of Ruios',
-    description: 'Blog of Ruios.',
+    title: 'Ruios',
+    description: 'here is the blog of Ruios.',
     dest: 'dist/',
     plugins: ['@vuepress/back-to-top', require('./hideHomeSide.js')],
     themeConfig: {
