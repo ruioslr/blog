@@ -1,7 +1,7 @@
 ---
 home: true
 heroText: null
-heroImage: /leimu-2.jpg
+heroImage: /leimu-2-small.jpg
 tagline: Believe yourself, and you are halfway there
 actionText: GO →
 footer: Here is the blog of ruios
