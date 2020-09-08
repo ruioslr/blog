@@ -4,7 +4,7 @@ module.exports = {
     title: 'Ruios',
     description: 'here is the blog of Ruios.',
     dest: 'dist/',
-    plugins: ['@vuepress/back-to-top', require('./hideHomeSide.js')],
+    plugins: ['@vuepress/back-to-top'],
     themeConfig: {
       type: 'blog',
       lastUpdated: 'Last Updated',

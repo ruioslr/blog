@@ -10,19 +10,8 @@ sidebar: false
 <script>
 // hide sidebar of home page
 export default {
-    // mounted() {
-    //     if(this.$page.path == '/'){
-    //         document.querySelector('.sidebar').style.display = 'none';
-    //     }else {
-    //         document.querySelector('.sidebar').style.display = '';
-
-    //     }
-    // },
-    // updated() {
-    //     console.log('update');
-    // },
-    // unmounted() {
-    //     console.log('mount');
-    // }
+    mounted() {
+        document.querySelector('.theme-container').classList.add('no-sidebar')
+    },
   }
 </script>
