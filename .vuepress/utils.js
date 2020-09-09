@@ -28,6 +28,7 @@ const getItems = (dir) => {
     dirs.forEach(dirname => {
         res.push({
             title: dirname,
+            collapsable: true,
             children: getItems(`${dir}/${dirname}`)
         })
     })
@@ -42,6 +43,7 @@ const getSidebar =  () => {
     dirs.forEach(dir => {
         res.push({
             title: dir,
+            collapsable: true,
             children: getItems(dir)
         }) ;
     })
