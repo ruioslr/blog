@@ -1,0 +1,3 @@
+React 状态更新机制： 
+    1，如何保证update不丢失（shared.pending放在current.udpateQueue,为什么？）
+    2，如和保证update连续性
