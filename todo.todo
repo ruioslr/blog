@@ -1,3 +1,7 @@
 React 状态更新机制： 
     ✔ 1，如何保证update不丢失（shared.pending放在current.udpateQueue,为什么？） @done(20-09-14 10:59)
     ✔ 2，如和保证update连续性 @done(20-09-14 10:59)
+
+React Hooks实现原理：
+    ☐ 1，完成useState和useReducer的实现原理（state提前计算？）
+    ☐ 2，useEffect, useRef, useMemo， useCallback等hooks实现
