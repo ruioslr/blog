@@ -14,7 +14,7 @@ tags:
 
 上文讲到，通过触发```compiler.hooks.make```钩子正式进入构建阶段，全局搜索注册了这个钩子的事件：
 
-![compiler.hooks.make出现的地方](../../asserts/img/compile.make.tap.png)
+![compiler.hooks.make出现的地方](../asserts/img/compile.make.tap.png)
 
 可以看到，主要是*EntryPlugin*注册了它,webpack会更具配置中的*entry*类型决定使用哪一个plugin,而这里的判断逻辑来自于上文中创建compiler前调用的```new WebpackOptionsApply().process(options, compiler)```中的 
 ```js

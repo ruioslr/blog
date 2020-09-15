@@ -616,7 +616,7 @@ compile(callback) {
 ```
 在这个方法中，会先触发```compiler.hooks.beforeCompile```,这个钩子只有```DllReferencePlugin```注册了，与主流程无关，这里先不做讨论，这个钩子之后会触发```compiler.hooks.compile```,而它则在以下几个文件中出现：
 
-![compiler.hooks.compile出现的地方](../../asserts/img/compile.tap.png)
+![compiler.hooks.compile出现的地方](../asserts/img/compile.tap.png)
 
 这些也与主流程无关，不深入。
 
