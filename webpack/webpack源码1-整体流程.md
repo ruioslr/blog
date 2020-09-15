@@ -33,7 +33,7 @@ webpack整体是基于*tarpable*这个实现的一套*事件注册/触发系统*
 ## 入口
 webpack的入口是*run*方法。
 
-::: details 查看run的代码
+::: details 查看compiler.run的代码
 ```js
 	run(callback) {
 		if (this.running) return callback(new ConcurrentCompilationError());
@@ -117,5 +117,43 @@ webpack的入口是*run*方法。
 ```
 :::
 
-在*run*方法中会依次触发```compiler.hooks.beforeRun```, ```compiler.hooks.run```钩子，最后调用```compiler.compile```方法触发```compiler.hooks.beforeCompile```、```compiler.hooks.compile```、```compiler.hooks.make```、 ```compilation.hooks.finish```、```compilation.hooks.seal```,```compiler.hooks.afterCompile```
+在*run*方法中会依次触发```compiler.hooks.beforeRun```, ```compiler.hooks.run```钩子，最后调用```compiler.compile```方法触发```compiler.hooks.beforeCompile```、```compiler.hooks.compile```、```compiler.hooks.make```、 调用```compilation.finish```、```compilation.seal```方法,触发```compiler.hooks.afterCompile```。
 
+::: details 查看compiler.compile方法
+```js
+	compile(callback) {
+		const params = this.newCompilationParams();
+		this.hooks.beforeCompile.callAsync(params, err => {
+			if (err) return callback(err);
+
+			this.hooks.compile.call(params);
+
+			const compilation = this.newCompilation(params);
+
+			this.hooks.make.callAsync(compilation, err => {
+				if (err) return callback(err);
+
+				compilation.finish(err => {
+					if (err) return callback(err);
+
+					compilation.seal(err => {
+						if (err) return callback(err);
+
+						this.hooks.afterCompile.callAsync(compilation, err => {
+							if (err) return callback(err);
+
+							return callback(null, compilation);
+						});
+					});
+				});
+			});
+		});
+	}
+
+```
+:::
+
+接下来，将wepback的打包构建分为以下三个阶段说明：
+* 构建前
+* 构建
+* 构建后
