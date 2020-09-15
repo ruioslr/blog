@@ -16,7 +16,7 @@ tags:
 
 ## webpack是什么
 
-webpack整体是基于*tarpable*这个实现的一套*事件注册/触发系统*。
+webpack整体是基于*tapable*这个实现的一套*事件注册/触发系统*。
 
 ## Compiler 和 Compilation
 
