@@ -2,6 +2,9 @@ language: node_js
 node_js:
 - node
 cache: yarn
+branches:
+ only:
+   - master
 script:
 - chmod 600 ~/.ssh/id_rsa
 - ssh ruios@139.159.134.18 -o StrictHostKeyChecking=no 'cd ~/blog/blog && git pull
