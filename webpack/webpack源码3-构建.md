@@ -344,5 +344,263 @@ class Semaphore {
 ```
 :::
 
+会在*normalModuleFactory.beforeResolve*（NormalModuleReplacementPlugin注册的，不细说）触发后，触发factory开始解析生成模块：
+
+::: details 查看normalModuleFactory.hooks.factory和normalModuleFactory.hooks.resolver代码：
+```js
+		this.hooks.factory.tap("NormalModuleFactory", () => (result, callback) => {
+			let resolver = this.hooks.resolver.call(null);
+
+			// Ignored
+			if (!resolver) return callback();
+
+			resolver(result, (err, data) => {
+				if (err) return callback(err);
+
+				// Ignored
+				if (!data) return callback();
+
+				// direct module
+				if (typeof data.source === "function") return callback(null, data);
+
+				this.hooks.afterResolve.callAsync(data, (err, result) => {
+					if (err) return callback(err);
+
+					// Ignored
+					if (!result) return callback();
+
+					let createdModule = this.hooks.createModule.call(result);
+					if (!createdModule) {
+						if (!result.request) {
+							return callback(new Error("Empty dependency (no request)"));
+						}
+
+						createdModule = new NormalModule(result);
+					}
+
+					createdModule = this.hooks.module.call(createdModule, result);
+
+					return callback(null, createdModule);
+				});
+			});
+		});
+		this.hooks.resolver.tap("NormalModuleFactory", () => (data, callback) => {
+			const contextInfo = data.contextInfo;
+			const context = data.context;
+			const request = data.request;
+
+			const loaderResolver = this.getResolver("loader");
+			const normalResolver = this.getResolver("normal", data.resolveOptions);
+
+			let matchResource = undefined;
+			let requestWithoutMatchResource = request;
+			const matchResourceMatch = MATCH_RESOURCE_REGEX.exec(request);
+			if (matchResourceMatch) {
+				matchResource = matchResourceMatch[1];
+				if (/^\.\.?\//.test(matchResource)) {
+					matchResource = path.join(context, matchResource);
+				}
+				requestWithoutMatchResource = request.substr(
+					matchResourceMatch[0].length
+				);
+			}
+
+			const noPreAutoLoaders = requestWithoutMatchResource.startsWith("-!");
+			const noAutoLoaders =
+				noPreAutoLoaders || requestWithoutMatchResource.startsWith("!");
+			const noPrePostAutoLoaders = requestWithoutMatchResource.startsWith("!!");
+			let elements = requestWithoutMatchResource
+				.replace(/^-?!+/, "")
+				.replace(/!!+/g, "!")
+				.split("!");
+			let resource = elements.pop();
+			elements = elements.map(identToLoaderRequest);
+
+			asyncLib.parallel(
+				[
+					callback =>
+						this.resolveRequestArray(
+							contextInfo,
+							context,
+							elements,
+							loaderResolver,
+							callback
+						),
+					callback => {
+						if (resource === "" || resource[0] === "?") {
+							return callback(null, {
+								resource
+							});
+						}
+
+						normalResolver.resolve(
+							contextInfo,
+							context,
+							resource,
+							{},
+							(err, resource, resourceResolveData) => {
+								if (err) return callback(err);
+								callback(null, {
+									resourceResolveData,
+									resource
+								});
+							}
+						);
+					}
+				],
+				(err, results) => {
+					if (err) return callback(err);
+					let loaders = results[0];
+					const resourceResolveData = results[1].resourceResolveData;
+					resource = results[1].resource;
+
+					// translate option idents
+					try {
+						for (const item of loaders) {
+							if (typeof item.options === "string" && item.options[0] === "?") {
+								const ident = item.options.substr(1);
+								item.options = this.ruleSet.findOptionsByIdent(ident);
+								item.ident = ident;
+							}
+						}
+					} catch (e) {
+						return callback(e);
+					}
+
+					if (resource === false) {
+						// ignored
+						return callback(
+							null,
+							new RawModule(
+								"/* (ignored) */",
+								`ignored ${context} ${request}`,
+								`${request} (ignored)`
+							)
+						);
+					}
+
+					const userRequest =
+						(matchResource !== undefined ? `${matchResource}!=!` : "") +
+						loaders
+							.map(loaderToIdent)
+							.concat([resource])
+							.join("!");
+
+					let resourcePath =
+						matchResource !== undefined ? matchResource : resource;
+					let resourceQuery = "";
+					const queryIndex = resourcePath.indexOf("?");
+					if (queryIndex >= 0) {
+						resourceQuery = resourcePath.substr(queryIndex);
+						resourcePath = resourcePath.substr(0, queryIndex);
+					}
+
+					const result = this.ruleSet.exec({
+						resource: resourcePath,
+						realResource:
+							matchResource !== undefined
+								? resource.replace(/\?.*/, "")
+								: resourcePath,
+						resourceQuery,
+						issuer: contextInfo.issuer,
+						compiler: contextInfo.compiler
+					});
+					const settings = {};
+					const useLoadersPost = [];
+					const useLoaders = [];
+					const useLoadersPre = [];
+					for (const r of result) {
+						if (r.type === "use") {
+							if (r.enforce === "post" && !noPrePostAutoLoaders) {
+								useLoadersPost.push(r.value);
+							} else if (
+								r.enforce === "pre" &&
+								!noPreAutoLoaders &&
+								!noPrePostAutoLoaders
+							) {
+								useLoadersPre.push(r.value);
+							} else if (
+								!r.enforce &&
+								!noAutoLoaders &&
+								!noPrePostAutoLoaders
+							) {
+								useLoaders.push(r.value);
+							}
+						} else if (
+							typeof r.value === "object" &&
+							r.value !== null &&
+							typeof settings[r.type] === "object" &&
+							settings[r.type] !== null
+						) {
+							settings[r.type] = cachedCleverMerge(settings[r.type], r.value);
+						} else {
+							settings[r.type] = r.value;
+						}
+					}
+					asyncLib.parallel(
+						[
+							this.resolveRequestArray.bind(
+								this,
+								contextInfo,
+								this.context,
+								useLoadersPost,
+								loaderResolver
+							),
+							this.resolveRequestArray.bind(
+								this,
+								contextInfo,
+								this.context,
+								useLoaders,
+								loaderResolver
+							),
+							this.resolveRequestArray.bind(
+								this,
+								contextInfo,
+								this.context,
+								useLoadersPre,
+								loaderResolver
+							)
+						],
+						(err, results) => {
+							if (err) return callback(err);
+							if (matchResource === undefined) {
+								loaders = results[0].concat(loaders, results[1], results[2]);
+							} else {
+								loaders = results[0].concat(results[1], loaders, results[2]);
+							}
+							process.nextTick(() => {
+								const type = settings.type;
+								const resolveOptions = settings.resolve;
+								callback(null, {
+									context: context,
+									request: loaders
+										.map(loaderToIdent)
+										.concat([resource])
+										.join("!"),
+									dependencies: data.dependencies,
+									userRequest,
+									rawRequest: request,
+									loaders,
+									resource,
+									matchResource,
+									resourceResolveData,
+									settings,
+									type,
+									parser: this.getParser(type, settings.parser),
+									generator: this.getGenerator(type, settings.generator),
+									resolveOptions
+								});
+							});
+						}
+					);
+				}
+			);
+		});
+```
+:::
+
+### resolver
+
+
 
 
