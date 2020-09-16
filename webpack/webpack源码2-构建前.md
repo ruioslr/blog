@@ -586,7 +586,9 @@ webpack 第一个触发的钩子是*compiler.hooks.beforeRun*, 全局查找注�
 
 ```js
 compile(callback) {
+        // 生成normalModuleFactory和contextModuleFactory
 		const params = this.newCompilationParams();
+
 		this.hooks.beforeCompile.callAsync(params, err => {
 			if (err) return callback(err);
 
@@ -614,7 +616,21 @@ compile(callback) {
 		});
 	}
 ```
-在这个方法中，会先触发```compiler.hooks.beforeCompile```,这个钩子只有```DllReferencePlugin```注册了，与主流程无关，这里先不做讨论，这个钩子之后会触发```compiler.hooks.compile```,而它则在以下几个文件中出现：
+首先，调用*newCompilationParams*方法生成*normalModuleFactory实例*和*contextModuleFactory实例*：
+```js
+	newCompilationParams() {
+		const params = {
+			normalModuleFactory: this.createNormalModuleFactory(),
+			contextModuleFactory: this.createContextModuleFactory(),
+			compilationDependencies: new Set()
+		};
+		return params;
+	}
+```
+
+在创建*normalModuleFactory实例*时，会注册*normalModuleFactory.hooks.factory和normalModuleFactory.hooks.resolver*钩子，前者的作用是生成一个用于解析模块的*factory*,后者是生成一个解析器*resolver*。在以后调用*normalModuleFactory实例*的*create*方法时，会触发**normalModuleFactory.hooks.factory*钩子。
+
+接着触发```compiler.hooks.beforeCompile```,这个钩子只有```DllReferencePlugin```注册了，与主流程无关，这里先不做讨论，这个钩子之后会触发```compiler.hooks.compile```,而它则在以下几个文件中出现：
 
 ![compiler.hooks.compile出现的地方](../asserts/img/compile.tap.png)
 
@@ -622,8 +638,34 @@ compile(callback) {
 
 compiler.hooks.compile触发之后，会生成*compilation*对象，进入构建阶段
 ```js
-	const compilation = this.newCompilation(params);
+const compilation = this.newCompilation(params);
+    // ... 
+newCompilation(params) {
+	const compilation = this.createCompilation();
+	compilation.fileTimestamps = this.fileTimestamps;
+	compilation.contextTimestamps = this.contextTimestamps;
+	compilation.name = this.name;
+	compilation.records = this.records;
+	compilation.compilationDependencies = params.compilationDependencies;
+	this.hooks.thisCompilation.call(compilation, params);
+	this.hooks.compilation.call(compilation, params);
+	return compilation;
+}
 ```
+在创建compilation时, 会触发*compiler.hooks.thisCompilation*和*compiler.hooks.compilation*钩子，其中各种*EntryPlugin*（例如SingleEntryPlugin）会注册*compiler.hooks.compilation*钩子：
+```js
+		compiler.hooks.compilation.tap(
+			"SingleEntryPlugin",
+			(compilation, { normalModuleFactory }) => {
+				compilation.dependencyFactories.set(
+					SingleEntryDependency,
+					normalModuleFactory
+				);
+			}
+		);
+```
+作用是在compilation生成时，创建对应的*dependency*与*moduleFactory*作为键值对存放在*compilation.dependencyFactories*上。
+
 接下来触发```compiler.hooks.make```,正式进入构建阶段。
 
 
