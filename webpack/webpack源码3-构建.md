@@ -297,3 +297,50 @@ class Semaphore {
 ## 解析生成模块
 
 从上一篇文章可以知道，调用*normalModuleFactory.create*触发*normalModuleFactory.hooks.factory*钩子生成*factory*,然后调用factory来生成模块。
+::: details 查看normalModuleFactory.create方法
+```js
+// create 方法
+	create(data, callback) {
+		const dependencies = data.dependencies;
+		const cacheEntry = dependencyCache.get(dependencies[0]);
+		if (cacheEntry) return callback(null, cacheEntry);
+		const context = data.context || this.context;
+		const resolveOptions = data.resolveOptions || EMPTY_RESOLVE_OPTIONS;
+		const request = dependencies[0].request;
+		const contextInfo = data.contextInfo || {};
+		this.hooks.beforeResolve.callAsync(
+			{
+				contextInfo,
+				resolveOptions,
+				context,
+				request,
+				dependencies
+			},
+			(err, result) => {
+				if (err) return callback(err);
+
+				// Ignored
+				if (!result) return callback();
+
+				const factory = this.hooks.factory.call(null);
+
+				// Ignored
+				if (!factory) return callback();
+
+				factory(result, (err, module) => {
+					if (err) return callback(err);
+
+					if (module && this.cachePredicate(module)) {
+						for (const d of dependencies) {
+							dependencyCache.set(d, module);
+						}
+					}
+
+					callback(null, module);
+				});
+			}
+		);
+	}
+```
+:::
+
