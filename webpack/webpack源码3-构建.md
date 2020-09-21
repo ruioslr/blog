@@ -681,6 +681,7 @@ module生成后，会触发*normalModuleFactory.hooks.module*钩子，这个钩�
 :::
 
 在*moduelFactory.create*调用完成后进入其回调函数：
+::: details 查看代码
 ```js
 	(err, module) => {
 					if (err) {
@@ -742,6 +743,355 @@ module生成后，会触发*normalModuleFactory.hooks.module*钩子，这个钩�
 				}
 			);
 ```
+:::
+调用*complation.addModule*方法：
+```js
+const addModuleResult = this.addModule(module);
+```
+::: details 查看complation.addModule方法：
+```js
+addModule(module, cacheGroup) {
+		const identifier = module.identifier();
+		const alreadyAddedModule = this._modules.get(identifier);
+		if (alreadyAddedModule) {
+			return {
+				module: alreadyAddedModule,
+				issuer: false,
+				build: false,
+				dependencies: false
+			};
+		}
+		const cacheName = (cacheGroup || "m") + identifier;
+		if (this.cache && this.cache[cacheName]) {
+			const cacheModule = this.cache[cacheName];
+
+			if (typeof cacheModule.updateCacheModule === "function") {
+				cacheModule.updateCacheModule(module);
+			}
+
+			let rebuild = true;
+			if (this.fileTimestamps && this.contextTimestamps) {
+				rebuild = cacheModule.needRebuild(
+					this.fileTimestamps,
+					this.contextTimestamps
+				);
+			}
+
+			if (!rebuild) {
+				cacheModule.disconnect();
+				this._modules.set(identifier, cacheModule);
+				this.modules.push(cacheModule);
+				for (const err of cacheModule.errors) {
+					this.errors.push(err);
+				}
+				for (const err of cacheModule.warnings) {
+					this.warnings.push(err);
+				}
+				return {
+					module: cacheModule,
+					issuer: true,
+					build: false,
+					dependencies: true
+				};
+			}
+			cacheModule.unbuild();
+			module = cacheModule;
+		}
+		this._modules.set(identifier, module);
+		if (this.cache) {
+			this.cache[cacheName] = module;
+		}
+		this.modules.push(module);
+		return {
+			module: module,
+			issuer: true,
+			build: true,
+			dependencies: true
+		};
+	}
+```
+:::
+通过调用*module.identifier*方法生成module的id,(实际上是返回的是module.request),
+```js
+	identifier() {
+		return this.request;
+	}
+```
+然后将module通过**identifier -> module**的形式缓存在*complation._module（Map）*, 并把module push到*complation.module (Array)*中，直接返回：
+```js
+		return {
+			module: module,
+			issuer: true,
+			build: true,
+			dependencies: true
+		};
+```
+继续*moduelFactory.create*的回调函数，缓存module后，会调用*compilation._addModuleChain*的第三个参数*onModule*，将module push到*complation.entries*数组中。
+```js
+		this._addModuleChain(
+			context,
+            entry,
+            // onModule 
+			module => {
+				this.entries.push(module);
+            },
+            // ...
+        )
+```
+
+接着，会执行下面两行代码，具体逻辑见注释：
+```js   
+                    // 将 dependency (xxEntryDependency).module = module
+                    dependency.module = module;
+                    module.addReason(null, dependency);
+                    
+                    // module.addReason方法体
+                    addReason(module, dependency, explanation) {
+		                this.reasons.push(new ModuleReason(module, dependency, explanation));
+	                }
+```
+由于刚刚*this.addModule(module)*的返回值中build为```true```，所以会接下来执行*complation.buildModule*方法：
+::: details 查看complation.buildModule代码
+```js
+	buildModule(module, optional, origin, dependencies, thisCallback) {
+		let callbackList = this._buildingModules.get(module);
+		if (callbackList) {
+			callbackList.push(thisCallback);
+			return;
+		}
+		this._buildingModules.set(module, (callbackList = [thisCallback]));
+
+		const callback = err => {
+			this._buildingModules.delete(module);
+			for (const cb of callbackList) {
+				cb(err);
+			}
+		};
+
+		this.hooks.buildModule.call(module);
+		module.build(
+			this.options,
+			this,
+			this.resolverFactory.get("normal", module.resolveOptions),
+			this.inputFileSystem,
+			error => {
+				const errors = module.errors;
+				for (let indexError = 0; indexError < errors.length; indexError++) {
+					const err = errors[indexError];
+					err.origin = origin;
+					err.dependencies = dependencies;
+					if (optional) {
+						this.warnings.push(err);
+					} else {
+						this.errors.push(err);
+					}
+				}
+
+				const warnings = module.warnings;
+				for (
+					let indexWarning = 0;
+					indexWarning < warnings.length;
+					indexWarning++
+				) {
+					const war = warnings[indexWarning];
+					war.origin = origin;
+					war.dependencies = dependencies;
+					this.warnings.push(war);
+				}
+				const originalMap = module.dependencies.reduce((map, v, i) => {
+					map.set(v, i);
+					return map;
+				}, new Map());
+				module.dependencies.sort((a, b) => {
+					const cmp = compareLocations(a.loc, b.loc);
+					if (cmp) return cmp;
+					return originalMap.get(a) - originalMap.get(b);
+				});
+				if (error) {
+					this.hooks.failedModule.call(module, error);
+					return callback(error);
+				}
+				this.hooks.succeedModule.call(module);
+				return callback();
+			}
+		);
+	}
+
+```
+:::
+
+在complation.buildModule方法中，首先将```module```->```(callbackList = [thisCallback])```缓存在*complation._buildingModules*上，然后触发*complation.hooks.buildModule*钩子(用于编写webpack插件)，然后调用*module.build*方法：
+::: details 查看module.build方法
+```js
+	build(options, compilation, resolver, fs, callback) {
+		this.buildTimestamp = Date.now();
+		this.built = true;
+		this._source = null;
+		this._sourceSize = null;
+		this._ast = null;
+		this._buildHash = "";
+		this.error = null;
+		this.errors.length = 0;
+		this.warnings.length = 0;
+		this.buildMeta = {};
+		this.buildInfo = {
+			cacheable: false,
+			fileDependencies: new Set(),
+			contextDependencies: new Set(),
+			assets: undefined,
+			assetsInfo: undefined
+		};
+
+		return this.doBuild(options, compilation, resolver, fs, err => {
+			this._cachedSources.clear();
+
+			// if we have an error mark module as failed and exit
+			if (err) {
+				this.markModuleAsErrored(err);
+				this._initBuildHash(compilation);
+				return callback();
+			}
+
+			// check if this module should !not! be parsed.
+			// if so, exit here;
+			const noParseRule = options.module && options.module.noParse;
+			if (this.shouldPreventParsing(noParseRule, this.request)) {
+				this._initBuildHash(compilation);
+				return callback();
+			}
+
+			const handleParseError = e => {
+				const source = this._source.source();
+				const loaders = this.loaders.map(item =>
+					contextify(options.context, item.loader)
+				);
+				const error = new ModuleParseError(this, source, e, loaders);
+				this.markModuleAsErrored(error);
+				this._initBuildHash(compilation);
+				return callback();
+			};
+
+			const handleParseResult = result => {
+				this._lastSuccessfulBuildMeta = this.buildMeta;
+				this._initBuildHash(compilation);
+				return callback();
+			};
+
+			try {
+				const result = this.parser.parse(
+					this._ast || this._source.source(),
+					{
+						current: this,
+						module: this,
+						compilation: compilation,
+						options: options
+					},
+					(err, result) => {
+						if (err) {
+							handleParseError(err);
+						} else {
+							handleParseResult(result);
+						}
+					}
+				);
+				if (result !== undefined) {
+					// parse is sync
+					handleParseResult(result);
+				}
+			} catch (e) {
+				handleParseError(e);
+			}
+		});
+	}
+
+```
+:::
+实际上调用的是module.doBuild方法
+::: details 查看module.doBuild方法
+```js
+	doBuild(options, compilation, resolver, fs, callback) {
+		const loaderContext = this.createLoaderContext(
+			resolver,
+			options,
+			compilation,
+			fs
+		);
+
+		runLoaders(
+			{
+				resource: this.resource,
+				loaders: this.loaders,
+				context: loaderContext,
+				readResource: fs.readFile.bind(fs)
+			},
+			(err, result) => {
+				if (result) {
+					this.buildInfo.cacheable = result.cacheable;
+					this.buildInfo.fileDependencies = new Set(result.fileDependencies);
+					this.buildInfo.contextDependencies = new Set(
+						result.contextDependencies
+					);
+				}
+
+				if (err) {
+					if (!(err instanceof Error)) {
+						err = new NonErrorEmittedError(err);
+					}
+					const currentLoader = this.getCurrentLoader(loaderContext);
+					const error = new ModuleBuildError(this, err, {
+						from:
+							currentLoader &&
+							compilation.runtimeTemplate.requestShortener.shorten(
+								currentLoader.loader
+							)
+					});
+					return callback(error);
+				}
+
+				const resourceBuffer = result.resourceBuffer;
+				const source = result.result[0];
+				const sourceMap = result.result.length >= 1 ? result.result[1] : null;
+				const extraInfo = result.result.length >= 2 ? result.result[2] : null;
+
+				if (!Buffer.isBuffer(source) && typeof source !== "string") {
+					const currentLoader = this.getCurrentLoader(loaderContext, 0);
+					const err = new Error(
+						`Final loader (${
+							currentLoader
+								? compilation.runtimeTemplate.requestShortener.shorten(
+										currentLoader.loader
+								  )
+								: "unknown"
+						}) didn't return a Buffer or String`
+					);
+					const error = new ModuleBuildError(this, err);
+					return callback(error);
+				}
+
+				this._source = this.createSource(
+					this.binary ? asBuffer(source) : asString(source),
+					resourceBuffer,
+					sourceMap
+				);
+				this._sourceSize = null;
+				this._ast =
+					typeof extraInfo === "object" &&
+					extraInfo !== null &&
+					extraInfo.webpackAST !== undefined
+						? extraInfo.webpackAST
+						: null;
+				return callback();
+			}
+		);
+	}
+```
+:::
+
+在*module.doBuild*方法中，调用*createLoaderContext*方法生成context，同时会触发*compilation.hooks.normalModuleLoader*钩子(用于编写webpack插件)。
+接着，通过使用*loader-runner*包里的*runLoaders*方法
+
+
+
 
 
 
