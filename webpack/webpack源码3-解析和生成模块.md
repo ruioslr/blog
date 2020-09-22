@@ -1006,7 +1006,12 @@ addModule(module, cacheGroup) {
 
 ```
 :::
-实际上调用的是module.doBuild方法
+
+*build*方法中主要包含两个过程：
+* 调用doBuild方法
+* build方法后的回调
+
+
 ::: details 查看module.doBuild方法
 ```js
 	doBuild(options, compilation, resolver, fs, callback) {
@@ -1088,7 +1093,135 @@ addModule(module, cacheGroup) {
 :::
 
 在*module.doBuild*方法中，调用*createLoaderContext*方法生成context，同时会触发*compilation.hooks.normalModuleLoader*钩子(用于编写webpack插件)。
-接着，通过使用*loader-runner*包里的*runLoaders*方法
+接着，通过调用*loader-runner*包里的*runLoaders*方法，对module串行使用*loader*得到处理结果后，进入*module.build*的回调，它的主要逻辑是看是否在*runLoaders*已经将*module对应的代码*转换成了*AST*,如果已经转换，则直接使用，否则，调用Parser将其转换成*AST*
+```js
+const result = this.parser.parse(
+					this._ast || this._source.source(),
+					{
+						current: this,
+						module: this,
+						compilation: compilation,
+						options: options
+					},
+					(err, result) => {
+						if (err) {
+							handleParseError(err);
+						} else {
+							handleParseResult(result);
+						}
+					}
+				);
+```
+接着调用callback结束*module.build*的调用，接着调用*compilation.processModuleDependencies*方法
+::: details 查看processMOduleDependencies方法
+```js
+	processModuleDependencies(module, callback) {
+		const dependencies = new Map();
+
+		const addDependency = dep => {
+			const resourceIdent = dep.getResourceIdentifier();
+			if (resourceIdent) {
+				const factory = this.dependencyFactories.get(dep.constructor);
+				if (factory === undefined) {
+					throw new Error(
+						`No module factory available for dependency type: ${dep.constructor.name}`
+					);
+				}
+
+				// dependencies key是factory, value是Map(这个Map: key是dependency的identify， value是一个dependency数组)
+				let innerMap = dependencies.get(factory);
+				if (innerMap === undefined) {
+					dependencies.set(factory, (innerMap = new Map()));
+				}
+				let list = innerMap.get(resourceIdent);
+				if (list === undefined) innerMap.set(resourceIdent, (list = []));
+				list.push(dep);
+			}
+		};
+
+		const addDependenciesBlock = block => {
+			if (block.dependencies) {
+				iterationOfArrayCallback(block.dependencies, addDependency);
+			}
+			if (block.blocks) {
+				iterationOfArrayCallback(block.blocks, addDependenciesBlock);
+			}
+			if (block.variables) {
+				iterationBlockVariable(block.variables, addDependency);
+			}
+		};
+
+		try {
+			addDependenciesBlock(module);
+		} catch (e) {
+			callback(e);
+		}
+
+		const sortedDependencies = [];
+
+		// 对Map使用of遍历，每一项是一个[key, value]数组
+		for (const pair1 of dependencies) {
+			for (const pair2 of pair1[1]) {
+				sortedDependencies.push({
+					factory: pair1[0],
+					dependencies: pair2[1]
+				});
+			}
+		}
+
+		this.addModuleDependencies(
+			module,
+			sortedDependencies,
+			this.bail,
+			null,
+			true,
+			callback
+		);
+	}
+```
+:::
+
+在*processMOduleDependencies*会遍历*module.dependencies*,将其存在临时变量*dependencies*中，然后改变其数据结构：
+```js
+
+// dependencies key是factory, value是Map(这个Map: key是dependency的identify， value是一个dependency数组)
+dependencies： {
+    factory: {
+        dependencyId: [dependency1, dependency2 ...]
+    }
+}
+
+|
+|
+|
+v
+// 对dependencies：使用of遍历使其转换成如下数组
+sortedDependencies： [
+    {
+        factory: factory,
+        denpendencies: [dependency1, ...]
+    },
+    {
+        factory: factory,
+        denpendencies: [dependency1, ...]
+    }
+    ...
+]
+
+```
+
+::: details 查看一个module的sortedDependencies
+![sortedDependencies](../asserts/img/sortedDependencies.png)
+:::
+
+接着调用*compilation.addModuleDependencies*方法，这个方法会遍历*sortedDependencies*，然后递归调用*processModuleDependencies*，找到每一个*dependency*的依赖。
+
+至此，```compiler.hooks.make```钩子执行完成，进入其回调，开始调用*compilation.finish*,这个方法主要是一些警告和错误收集，然后调用*compilation.seal*，进入*chunk生成阶段*。
+
+
+
+
+
 
 
 
