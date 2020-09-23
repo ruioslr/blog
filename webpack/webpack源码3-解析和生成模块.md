@@ -16,7 +16,7 @@ tags:
 
 ![compiler.hooks.make出现的地方](../asserts/img/compile.make.tap.png)
 
-可以看到，主要是*EntryPlugin*注册了它,webpack会更具配置中的*entry*类型决定使用哪一个plugin,而这里的判断逻辑来自于上文中创建compiler前调用的```new WebpackOptionsApply().process(options, compiler)```中的 
+可以看到，主要是```EntryPlugin```注册了它,webpack会更具配置中的```entry```类型决定使用哪一个plugin,而这里的判断逻辑来自于上文中创建compiler前调用的```new WebpackOptionsApply().process(options, compiler)```中的 
 ```js
 new EntryOptionPlugin().apply(compiler);
 ```
@@ -39,7 +39,7 @@ new EntryOptionPlugin().apply(compiler);
 	}
 ```
 
-这里以对象形式的entry为例，遍历对象的每一项，最终每一项都调用*SingleEntryPlugin*
+这里以对象形式的entry为例，遍历对象的每一项，最终每一项都调用```SingleEntryPlugin```
 
 ```js
 // SingleEntryPlugin
@@ -66,7 +66,7 @@ new EntryOptionPlugin().apply(compiler);
 		);
 	}
 ```
-SingleEntryPlugin会注册*compiler.hooks.make*,所以```compiler.hooks.make```触发后，会继续接下来的流程：根据entry创建dependency，然后调用```compilation.addEntry(context, dep, name, callback);```
+SingleEntryPlugin会注册```compiler.hooks.make```,所以```compiler.hooks.make```触发后，会继续接下来的流程：根据entry创建dependency，然后调用```compilation.addEntry(context, dep, name, callback);```
 
 ::: details 查看compilation.addEntry方法
 ```js
@@ -121,10 +121,10 @@ SingleEntryPlugin会注册*compiler.hooks.make*,所以```compiler.hooks.make```�
 :::
 
 ::: tip
-可以看到在这个方法中会触发*compilation.hooks.addEntry*钩子，也就是说在编写插件的时候可以注册这个钩子，但是官方文档中并没有写这个钩子。类似的情况还有很多，例如normalModuleFactory.hooks.beforeResolve钩子，这些钩子都可以在编写插件时注册，但是官方文档里并没有列出。
+可以看到在这个方法中会触发```compilation.hooks.addEntry```钩子，也就是说在编写插件的时候可以注册这个钩子，但是官方文档中并没有写这个钩子。类似的情况还有很多，例如normalModuleFactory.hooks.beforeResolve钩子，这些钩子都可以在编写插件时注册，但是官方文档里并没有列出。
 :::
 
-在*compilation.addEntry*方法中，会将entry缓存在*_preparedEntrypoints*数组上，接着调用*compilation._addModuleChain*方法。
+在```compilation.addEntry```方法中，会将entry缓存在```_preparedEntrypoints```数组上，接着调用```compilation._addModuleChain```方法。
 
 ::: details 查看compilation._addModuleChain方法
 ```js
@@ -232,7 +232,7 @@ SingleEntryPlugin会注册*compiler.hooks.make*,所以```compiler.hooks.make```�
 ```
 :::
 
-*compilation._addModuleChain*主要是通过上面由entry创建的*dependency*.constructor(这里是SingleEntryDependency)获取对应的*moduleFactory*(这里是NomalModuleFactory)，接着会通过*编译队列控制semaphore.acquire*中调用*moduleFactory.create*开始解析生成*wepback module*。
+*compilation._addModuleChain*主要是通过上面由entry创建的```dependency.constructor```(这里是SingleEntryDependency)获取对应的```moduleFactory```(这里是NomalModuleFactory)，接着会通过*编译队列控制semaphore.acquire*中调用```moduleFactory.create```开始解析生成*wepback module*。
 
 这里有两个需要解释的点：
 * emaphore.acquire是什么
@@ -292,12 +292,12 @@ class Semaphore {
 }
 
 ```
-*Semaphore* 这个类是一个编译队列控制，原理很简单，对执行进行了并发控制，默认并发数为*100*，超过后存入*semaphore.waiters*，根据情况再调用 semaphore.release 去执行存入的事件 semaphore.waiters。
+```Semaphore``` 这个类是一个编译队列控制，原理很简单，对执行进行了并发控制，默认并发数为*100*，超过后存入```semaphore.waiters```，根据情况再调用 semaphore.release 去执行存入的事件 semaphore.waiters。
 
 
 ### 解析生成模块
 
-从上一篇文章可以知道，调用*normalModuleFactory.create*触发*normalModuleFactory.hooks.factory*钩子生成*factory*,然后调用factory来生成模块。
+从上一篇文章可以知道，调用```normalModuleFactory.create```触发```normalModuleFactory.hooks.factory```钩子生成*factory*,然后调用factory来生成模块。
 接下来会详解。
 
 
@@ -306,14 +306,14 @@ class Semaphore {
 #### enhanced-resolve
 
 ### module生成
-module生成是从*Complation._addModuleChain*开始的,首先获取对应的*moduleFactory*：
+module生成是从*Complation._addModuleChain*开始的,首先获取对应的```moduleFactory```：
 ```js
 		const Dep = /** @type {DepConstructor} */ (dependency.constructor);
 		const moduleFactory = this.dependencyFactories.get(Dep);
 ```
-然后在编译控制队列中执行*moduleFactory.create*方法并将入口作为一个*dependency*传入：
+然后在编译控制队列中执行```moduleFactory.create```方法并将入口作为一个```dependency```传入：
 ::: tip
-*moduleFactory.create*调用栈开始
+```moduleFactory.create```调用栈开始
 :::
 ```js
 			moduleFactory.create(
@@ -374,13 +374,13 @@ module生成是从*Complation._addModuleChain*开始的,首先获取对应的*mo
 ```
 :::
 
-在*create*中，会调用*normalModuleFactory.hooks.beforeResolve*钩子,这个钩子并没有做什么实际上的事情，直接进入它的回调，继续执行，会调用*normalModuleFactory.hooks.factory*钩子得到*factory*方法:
+在```create```中，会调用```normalModuleFactory.hooks.beforeResolve```钩子,这个钩子并没有做什么实际上的事情，直接进入它的回调，继续执行，会调用```normalModuleFactory.hooks.factory```钩子得到*factory*方法:
 ```js
 				const factory = this.hooks.factory.call(null);
 
 ```
 
-*normalModuleFactory.hooks.factory*钩子是在*NormalModuleFactory*的构造函数中被注册的。
+```normalModuleFactory.hooks.factory```钩子是在```NormalModuleFactory```的构造函数中被注册的。
 ::: details 查看normalModuleFactory.hooks.factory：
 ```js
 		this.hooks.factory.tap("NormalModuleFactory", () => (result, callback) => {
@@ -423,13 +423,13 @@ module生成是从*Complation._addModuleChain*开始的,首先获取对应的*mo
 ```
 :::
 
-在得到*factory*后会执行这个方法，这个方法是*normalModuleFactory.hooks.factory*的返回值。
+在得到*factory*后会执行这个方法，这个方法是```normalModuleFactory.hooks.factory```的返回值。
 ```js
 this.hooks.factory.tap("NormalModuleFactory", () => (result, callback) => {
         // ... 
 })
 ```
-执行*factory*方法，会先调用*normalModuleFactory.hooks.resolver*钩子生成解析器：
+执行*factory*方法，会先调用```normalModuleFactory.hooks.resolver```钩子生成解析器：
 
 ::: details 查看normalModuleFactory.hooks.resolver代码：
 ```js
@@ -648,7 +648,7 @@ this.hooks.resolver.tap("NormalModuleFactory", () => (data, callback) => {
 ```
 :::
 
-在生成解析器后，执行解析器得到解析后的结果，然后触发*normalModuleFactory.hooks.afterResolve*钩子，这个钩子没有实际功能，继续向下走，会触发*normalModuleFactory.hooks.createModuel*钩子,事实上这个钩子全局搜索，发现并没有被注册过，所以返回值不存在，因而，真正的*module*是通过 ```new NormalModule(result)```产生：
+在生成解析器后，执行解析器得到解析后的结果，然后触发```normalModuleFactory.hooks.afterResolve```钩子，这个钩子没有实际功能，继续向下走，会触发```normalModuleFactory.hooks.createModuel```钩子,事实上这个钩子全局搜索，发现并没有被注册过，所以返回值不存在，因而，真正的*module*是通过 ```new NormalModule(result)```产生：
 
 ```js
 					if (!createdModule) {
@@ -659,7 +659,7 @@ this.hooks.resolver.tap("NormalModuleFactory", () => (data, callback) => {
 						createdModule = new NormalModule(result);
                     }
 ```
-module生成后，会触发*normalModuleFactory.hooks.module*钩子，这个钩子也没有实际作用，只是提供给*开发webpack插件*时注册。生成的*createdModule*是*NormalModule*的实例，上面会有很多的方法供调用，之后会说明。
+module生成后，会触发```normalModuleFactory.hooks.module```钩子，这个钩子也没有实际作用，只是提供给*开发webpack插件*时注册。生成的```createdModule```是```NormalModule```的实例，上面会有很多的方法供调用，之后会说明。
 
 在生成module之后，会调用回调函数callback，然后return结束*factory*方法的调用，进入它的回调函数：
 ```js
@@ -675,12 +675,12 @@ module生成后，会触发*normalModuleFactory.hooks.module*钩子，这个钩�
 					callback(null, module);
 				});
 ```
-然后model以 dependency -> moduel的形式缓存在*normalModuleFactory.dependencyCache*上，然后调用callbackj结束*normalModuleFactory.create*的调用。
+然后model以 dependency -> moduel的形式缓存在```normalModuleFactory.dependencyCache```上，然后调用callbackj结束```normalModuleFactory.create```的调用。
 ::: tip
-*moduleFactory.create*调用栈结束
+```moduleFactory.create````调用栈结束
 :::
 
-在*moduelFactory.create*调用完成后进入其回调函数：
+在```moduelFactory.create```调用完成后进入其回调函数：
 ::: details 查看代码
 ```js
 	(err, module) => {
@@ -744,7 +744,7 @@ module生成后，会触发*normalModuleFactory.hooks.module*钩子，这个钩�
 			);
 ```
 :::
-调用*complation.addModule*方法：
+调用```complation.addModule```方法：
 ```js
 const addModuleResult = this.addModule(module);
 ```
@@ -811,13 +811,13 @@ addModule(module, cacheGroup) {
 	}
 ```
 :::
-通过调用*module.identifier*方法生成module的id,(实际上是返回的是module.request),
+通过调用```module.identifier```方法生成module的id,(实际上是返回的是module.request),
 ```js
 	identifier() {
 		return this.request;
 	}
 ```
-然后将module通过**identifier -> module**的形式缓存在*complation._module（Map）*, 并把module push到*complation.module (Array)*中，直接返回：
+然后将module通过**identifier -> module**的形式缓存在```complation._module（Map）```, 并把module push到```complation.module (Array)```中，直接返回：
 ```js
 		return {
 			module: module,
@@ -826,7 +826,7 @@ addModule(module, cacheGroup) {
 			dependencies: true
 		};
 ```
-继续*moduelFactory.create*的回调函数，缓存module后，会调用*compilation._addModuleChain*的第三个参数*onModule*，将module push到*complation.entries*数组中。
+继续```moduelFactory.create```的回调函数，缓存module后，会调用```compilation._addModuleChain```的第三个参数```onModule```，将module push到```complation.entries```数组中。
 ```js
 		this._addModuleChain(
 			context,
@@ -850,7 +850,7 @@ addModule(module, cacheGroup) {
 		                this.reasons.push(new ModuleReason(module, dependency, explanation));
 	                }
 ```
-由于刚刚*this.addModule(module)*的返回值中build为```true```，所以会接下来执行*complation.buildModule*方法：
+由于刚刚```this.addModule(module)```的返回值中build为```true```，所以会接下来执行```complation.buildModule```方法：
 ::: details 查看complation.buildModule代码
 ```js
 	buildModule(module, optional, origin, dependencies, thisCallback) {
@@ -920,7 +920,7 @@ addModule(module, cacheGroup) {
 ```
 :::
 
-在complation.buildModule方法中，首先将```module```->```(callbackList = [thisCallback])```缓存在*complation._buildingModules*上，然后触发*complation.hooks.buildModule*钩子(用于编写webpack插件)，然后调用*module.build*方法：
+在complation.buildModule方法中，首先将```module```->```(callbackList = [thisCallback])```缓存在*complation._buildingModules*上，然后触发```complation.hooks.buildModule```钩子(用于编写webpack插件)，然后调用```module.build```方法：
 ::: details 查看module.build方法
 ```js
 	build(options, compilation, resolver, fs, callback) {
@@ -1007,7 +1007,7 @@ addModule(module, cacheGroup) {
 ```
 :::
 
-*build*方法中主要包含两个过程：
+```build```方法中主要包含两个过程：
 * 调用doBuild方法
 * build方法后的回调
 
@@ -1092,8 +1092,8 @@ addModule(module, cacheGroup) {
 ```
 :::
 
-在*module.doBuild*方法中，调用*createLoaderContext*方法生成context，同时会触发*compilation.hooks.normalModuleLoader*钩子(用于编写webpack插件)。
-接着，通过调用*loader-runner*包里的*runLoaders*方法，对module串行使用*loader*得到处理结果后，进入*module.build*的回调，它的主要逻辑是看是否在*runLoaders*已经将*module对应的代码*转换成了*AST*,如果已经转换，则直接使用，否则，调用Parser将其转换成*AST*
+在```module.doBuild```方法中，调用```createLoaderContext```方法生成context，同时会触发```compilation.hooks.normalModuleLoader```钩子(用于编写webpack插件)。
+接着，通过调用*loader-runner*包里的*runLoaders*方法，对module串行使用*loader*得到处理结果后，进入```module.build```的回调，它的主要逻辑是看是否在```runLoaders```已经将```module对应的代码```转换成了*AST*,如果已经转换，则直接使用，否则，调用Parser将其转换成*AST*
 ```js
 const result = this.parser.parse(
 					this._ast || this._source.source(),
@@ -1112,7 +1112,7 @@ const result = this.parser.parse(
 					}
 				);
 ```
-接着调用callback结束*module.build*的调用，接着调用*compilation.processModuleDependencies*方法
+接着调用callback结束```module.build```的调用，接着调用```compilation.processModuleDependencies```方法
 ::: details 查看processMOduleDependencies方法
 ```js
 	processModuleDependencies(module, callback) {
@@ -1181,7 +1181,7 @@ const result = this.parser.parse(
 ```
 :::
 
-在*processMOduleDependencies*会遍历*module.dependencies*,将其存在临时变量*dependencies*中，然后改变其数据结构：
+在```processMOduleDependencies```会遍历```module.dependencies```,将其存在临时变量```dependencies```中，然后改变其数据结构：
 ```js
 
 // dependencies key是factory, value是Map(这个Map: key是dependency的identify， value是一个dependency数组)
@@ -1214,9 +1214,9 @@ sortedDependencies： [
 ![sortedDependencies](../asserts/img/sortedDependencies.png)
 :::
 
-接着调用*compilation.addModuleDependencies*方法，这个方法会遍历*sortedDependencies*，然后递归调用*processModuleDependencies*，找到每一个*dependency*的依赖。
+接着调用```compilation.addModuleDependencies```方法，这个方法会遍历```sortedDependencies```，然后递归调用```processModuleDependencies```，找到每一个```dependency```的依赖。
 
-至此，```compiler.hooks.make```钩子执行完成，进入其回调，开始调用*compilation.finish*,这个方法主要是一些警告和错误收集，然后调用*compilation.seal*，进入*chunk生成阶段*。
+至此，```compiler.hooks.make```钩子执行完成，进入其回调，开始调用```compilation.finish```,这个方法主要是一些警告和错误收集，然后调用```compilation.seal```，进入*chunk生成阶段*。
 
 
 
