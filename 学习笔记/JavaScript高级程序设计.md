@@ -1,53 +1,54 @@
 ---
 title: JavaScript高级程序设计
 categories:
- - 学习笔记
+  - 学习笔记
 tags:
- - JavaScript JavaScript高级程序设计
+  - JavaScript JavaScript高级程序设计
 ---
 
-# JavaScript高级程序设计
+# JavaScript 高级程序设计
 
 ## ECMAScript
 
 ECMAScript，即 ECMA-262 定义的语言，并不局限于 Web 浏览器。事实上，这门语言没有输入和 输出之类的方法。ECMA-262 将这门语言作为一个基准来定义，以便在它之上再构建更稳健的脚本语言。 Web 浏览器只是 ECMAScript 实现可能存在的一种宿主环境（host environment）。 宿主环境提供 ECMAScript 的基准实现和与环境自身交互必需的扩展。扩展（比如 DOM）使用 ECMAScript 核心类型 和语法，提供特定于环境的额外功能。其他宿主环境还有服务器端 JavaScript 平台 Node.js 和即将被淘汰 的 Adobe Flash。
 
-JavaScript 是一门用来与网页交互的脚本语言，包含以下三个组成部分。 
-*  ECMAScript：由 ECMA-262 定义并提供核心功能。 
-*  文档对象模型（DOM）：提供与网页内容交互的方法和接口。 
-*  浏览器对象模型（BOM）：提供与浏览器交互的方法和接口。
+JavaScript 是一门用来与网页交互的脚本语言，包含以下三个组成部分。
 
+- ECMAScript：由 ECMA-262 定义并提供核心功能。
+- 文档对象模型（DOM）：提供与网页内容交互的方法和接口。
+- 浏览器对象模型（BOM）：提供与浏览器交互的方法和接口。
 
 ## 基础知识
 
-* script 标签
-**defer**: 不会阻塞dom渲染，立即下载，延迟执行（整个页面解析完成后再执行）, *多个脚本顺序执行*。defer属性只对外部脚本有效，行内脚本会忽略这个属性。
-**async**: 同*defer*一样不会阻塞dom渲染，会立即下载脚本，但是会在下载完后立即执行，所以无法保证多个async脚本的执行顺序。行内脚本会忽略这个属性。
+- script 标签
+  **defer**: 不会阻塞 dom 渲染，立即下载，延迟执行（整个页面解析完成后再执行）, _多个脚本顺序执行_。defer 属性只对外部脚本有效，行内脚本会忽略这个属性。
+  **async**: 同*defer*一样不会阻塞 dom 渲染，会立即下载脚本，但是会在下载完后立即执行，所以无法保证多个 async 脚本的执行顺序。行内脚本会忽略这个属性。
 
 ## JavaScript
 
 ## BOM
-浏览器url跳转的三种方式：
-* location.assign(url);
-* location.href = url;
-* window.location = url;
 
+浏览器 url 跳转的三种方式：
+
+- location.assign(url);
+- location.href = url;
+- window.location = url;
 
 浏览器重新刷新：
-* location.reload(); // 重新加载，可能是从缓存加载 
-* location.reload(true); // 重新加载，从服务器加载
+
+- location.reload(); // 重新加载，可能是从缓存加载
+- location.reload(true); // 重新加载，从服务器加载
 
 ::: tip
-修改location.pathname,location.search, location.hostname,location.port 都会使浏览器重新加载url，而修改licaiton.hash不会。
-通过history.pushState()/replaceState()改变了pathname,也不会是浏览器重新加载。
+修改 location.pathname,location.search, location.hostname,location.port 都会使浏览器重新加载 url，而修改 licaiton.hash 不会。
+通过 history.pushState()/replaceState()改变了 pathname,也不会是浏览器重新加载。
 :::
 
 ### navigator 对象
 
 navigator 对象的属性通常用于确定浏览器的类型。
-通常通过navigator.userAgent判断浏览器标识。
-navigator.plugins返回浏览器安装的插件数组。
-
+通常通过 navigator.userAgent 判断浏览器标识。
+navigator.plugins 返回浏览器安装的插件数组。
 
 ### screen 对象
 
@@ -60,67 +61,136 @@ history 对象表示当前窗口首次使用以来用户的导航历史记录。
 
 history.go(number)方法可以前进和后退。
 
-history.length表示历史记录数。
+history.length 表示历史记录数。
 
-#### history状态管理
+#### history 状态管理
 
-可以通过history.pushState()/replaceState()改变浏览器历史状态，再点击后退按钮时，会触发popstate事件。
+可以通过 history.pushState()/replaceState()改变浏览器历史状态，再点击后退按钮时，会触发 popstate 事件。
 ::: tip
 使用 HTML5 状态管理时，要确保通过 pushState()创建的每个“假”URL 背后都对应着服务器上一个真实的物理 URL。否则，单击“刷新”按钮会导致 404 错误。所有单页应用程序（SPA，Single Page Application）框架都必须通过服务器或客户端的某些配置解决这个问题。
 :::
 
 ## 客户端检测
 
-
 ```js
 // IE5 之前的版本中没有 document.getElementById() 这个 DOM 方法， 但可以通过 document.all 属性实现同样的功能。为此，可以进行如下能力检测：
 function getElement(id) {
-    if (document.getElementById) { 
-        return document.getElementById(id); 
-    } else if (document.all) {
-        return document.all[id]; 
-    } else {
-        throw new Error("No way to retrieve element!");
-    }
+  if (document.getElementById) {
+    return document.getElementById(id);
+  } else if (document.all) {
+    return document.all[id];
+  } else {
+    throw new Error("No way to retrieve element!");
+  }
 }
 ```
-::: tip 
+
+::: tip
 应该先检测最常用的方式
 :::
 
 ## DOM
 
-页面的根节点时**document**节点，其唯一子节点是```<html>```;
+页面的根节点时**document**节点，其唯一子节点是`<html>`;
 
 ### Node 类型
 
-*DOM Level 1*描述了名为**Node**的接口，这个接口是所有**DOM**节点类型都必须实现的。Node接口在JavaScript中被实现为**Node 类型**，在除 IE 之外的所有浏览器中都可以直接访问这个类型。在 JavaScript中，所有节点类型都继承 Node 类型，因此所有类型都共享相同的基本属性和方法。 每个节点都有 nodeType 属性，表示该节点的类型.
+*DOM Level 1*描述了名为**Node**的接口，这个接口是所有**DOM**节点类型都必须实现的。Node 接口在 JavaScript 中被实现为**Node 类型**，在除 IE 之外的所有浏览器中都可以直接访问这个类型。在 JavaScript 中，所有节点类型都继承 Node 类型，因此所有类型都共享相同的基本属性和方法。 每个节点都有 nodeType 属性，表示该节点的类型.
 
 节点的*parentNode*指向父元素，*childNodes*是所有子节点组成的类数组。
 
 ### 操作节点的方法
 
-* appendChild：向childNodes类数组里追加一个节点
-* insertBefore: 向某个节点前插入一个节点
-* replaceChild: 替换某个节点
-* removeChild: 删除某个节点
-* cloneNode: 复制节点，如果传入true的话，则会复制节点及其整个子dom树(不会复制dom的js事件）
+- appendChild：向 childNodes 类数组里追加一个节点
+- insertBefore: 向某个节点前插入一个节点
+- replaceChild: 替换某个节点
+- removeChild: 删除某个节点
+- cloneNode: 复制节点，如果传入 true 的话，则会复制节点及其整个子 dom 树(不会复制 dom 的 js 事件）
 
 ### document 常用属性
 
-* document.title 标题
-* document.URL === location.href
-* getElementByXXX 寻找dom
+- document.title 标题
+- document.URL === location.href
+- getElementByXXX 寻找 dom
 
 ## DOM 编程
 
+- 动态加载 script
 
+```js
+// 外部脚本
+function loadScript(url) {
+  let script = document.createElement("script");
+  script.src = url;
+  document.body.appendChild(script);
+}
+// 内联脚本
+function loadScript(code) {
+  let script = document.createElement("script");
+  try {
+    script.appendChild(document.createTextNode(code));
+  } catch (e) {
+    script.text = code;
+  }
+  document.body.appendChild(script);
+}
+```
 
+- 动态样式
 
+外联样式：如动态创建**script**标签一样，**link**标签也可以动态创建，然后 append 到**head**标签中。
+内联样式：动态创建**style**标签。
 
+```js
+// 外联
+function loadStyles(url) {
+  let link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href = url;
+  let head = document.getElementsByTagName("head")[0];
+  head.appendChild(link);
+}
 
+loadStyles("styles.css");
 
+// 内联
+function loadStyleString(css) {
+  let style = document.createElement("style");
+  style.type = "text/css";
+  try {
+    style.appendChild(document.createTextNode(css));
+  } catch (ex) {
+    style.styleSheet.cssText = css;
+  }
+  let head = document.getElementsByTagName("head")[0];
 
+  head.appendChild(style);
+}
 
+loadStyleString("body{background-color:red}");
+```
 
+- 类名操作
+
+node.classList上有多个操作类名的方法：
+add();
+remove();
+contains();
+同时，classList可以被迭代。
+
+### 焦点管理
+
+**document.activeElement** 表示当前拥有焦点的dom元素。
+**document.hasFocus()** 返回当前文档是否有焦点。
+
+### HTMLDocument 扩展
+
+- readyState
+  
+document.readyState === 'loading'表示文档正在加载，document.readyState === 'complete'表示加载完成。
+
+- innerHTML 和 outerHTML
+
+两者都会放回dom字符串，但前者不包括调用的dom本身，而后者会包括。
 
