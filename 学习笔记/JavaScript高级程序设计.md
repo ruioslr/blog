@@ -188,7 +188,7 @@ contains();
 
 - readyState
   
-document.readyState === 'loading'表示文档正在加载，document.readyState === 'complete'表示加载完成。
+```document.readyState === 'loading'```表示文档正在加载，```document.readyState === 'complete'```表示加载完成。
 
 - innerHTML 和 outerHTML
 
