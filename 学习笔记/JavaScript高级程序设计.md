@@ -173,24 +173,137 @@ loadStyleString("body{background-color:red}");
 
 - 类名操作
 
-node.classList上有多个操作类名的方法：
+node.classList 上有多个操作类名的方法：
 add();
 remove();
 contains();
-同时，classList可以被迭代。
+同时，classList 可以被迭代。
 
 ### 焦点管理
 
-**document.activeElement** 表示当前拥有焦点的dom元素。
+**document.activeElement** 表示当前拥有焦点的 dom 元素。
 **document.hasFocus()** 返回当前文档是否有焦点。
 
 ### HTMLDocument 扩展
 
 - readyState
-  
-```document.readyState === 'loading'```表示文档正在加载，```document.readyState === 'complete'```表示加载完成。
+
+`document.readyState === 'loading'`表示文档正在加载，`document.readyState === 'complete'`表示加载完成。
 
 - innerHTML 和 outerHTML
 
-两者都会放回dom字符串，但前者不包括调用的dom本身，而后者会包括。
+两者都会放回 dom 字符串，但前者不包括调用的 dom 本身，而后者会包括。
+
+## DOM2 和DOM3
+
+
+
+
+## 模块
+
+将代码拆分成独立的块，然后再把这些块连接起来可以通过模块模式来实现。这种模式背后的思想 很简单：把逻辑分块，各自封装，相互独立，每个块自行决定对外暴露什么，同时自行决定引入执行哪 些外部代码。不同的实现和特性让这些基本的概念变得有点复杂，但这个基本的思想是所有 JavaScript 模块系统的基础。
+
+### IIFE
+
+IIFE(Immediately Invoked Function Expression): ）将模块定义封装在匿名闭包中.
+
+```js
+var Foo = (function() {
+  return {
+    bar: "baz",
+    baz: function() {
+      console.log(this.bar);
+    },
+  };
+})();
+
+console.log(Foo.bar); // 'baz'
+Foo.baz(); // 'baz'
+```
+
+### CommonJS
+
+主要使用在服务器端 Nodejs。
+
+```js
+var moduleB = require('./moduleB');
+
+module.exports = { stuff: moduleB.doStuff(); };
+```
+
+- 模块的加载是同步的。
+- 模块第一次加载后会被缓存，后续加载会取得缓存的模块。所以模块的代码只会执行一次。
+
+### 异步模块定义（AMD）
+
+这是定义 AMD 模块的方式。
+
+```js
+define('moduleA', ['moduleB'], function(moduleB) {
+    return {
+        stuff: moduleB.doStuff();
+    };
+});
+```
+
+同时，也支持使用**require**和**export**来定义 commonjs 风格的模块
+
+```js
+define("moduleA", ["require", "exports"], function(require, exports) {
+  var moduleB = require("moduleB");
+
+  exports.stuff = moduleB.doStuff();
+});
+```
+
+### 通用模块定义（UMD）
+
+UMD 是用来统一 Commonjs 和 AMD 的方案。
+
+```js
+(function(root, factory) {
+  if (typeof define === "function" && define.amd) {
+    // AMD。注册为匿名模块
+    define(["moduleB"], factory);
+  } else if (typeof module === "object" && module.exports) {
+    // Node。不支持严格 CommonJS
+    // 但可以在 Node 这样支持 module.exports 的 // 类 CommonJS 环境下使用
+    module.exports = factory(require(" moduleB "));
+  } else {
+    // 浏览器全局上下文（root 是 window）
+    root.returnExports = factory(root.moduleB);
+  }
+})(this, function(moduleB) {
+  // 以某种方式使用 moduleB
+
+  // 将返回值作为模块的导出
+  // 这个例子返回了一个对象
+  // 但是模块也可以返回函数作为导出值
+  return {};
+});
+```
+UMD的实现是通过一个IIFE包裹逻辑，判断当前环境是Commonjs或AMD环境，并做处理，如果既不是Commonjs也不是AMD环境，则将模块挂载在全局对象（window）上。
+
+### ES6 Module
+
+- 带有 type="module"属性的```<script>``` 标签会告诉浏览器相关代码应该作为模块执行，而不是作为传统的脚本执行.
+- 所有模块都会像```<script defer>```加载的脚本一样按顺序执行.
+- 同一个模块无论在一个页面中被加载多少次，也不管它是如何加载的，实际上都只会加载一次.
+
+#### 模块行为
+
+- 模块代码只在加载后执行
+- 模块只能加载一次
+- 模块是单例
+- 模块可以定义公共接口，其他模块可以基于这个公共接口观察和交互
+- 模块可以请求加载其他模块
+- 支持循环依赖
+
+#### ES6模块额外特性
+
+- ES6 模块默认在严格模式下执行
+- ES6 模块不共享全局命名空间
+- 模块顶级 this 的值是 undefined(常规脚本中是 window)
+- 模块中的 var 声明不会添加到 window 对象
+- ES6 模块是异步加载和执行的
 
