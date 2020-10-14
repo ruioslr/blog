@@ -194,10 +194,58 @@ contains();
 
 两者都会放回 dom 字符串，但前者不包括调用的 dom 本身，而后者会包括。
 
-## DOM2 和DOM3
+## DOM2 和 DOM3
 
+DOM3 新增比较节点的两个方法
 
+- isSameNode()
+- isEqualNode()
 
+当两个节点是同一个对象时，`isSameNode() === true`, 当两个节点的类型相同，且属性、attributes、childNodes 都相同时`isEqualNode() === true`
+
+DOM3 也增加了给 DOM 节点附加额外数据的方法
+
+- setUserData()
+
+```js
+document.body.setUserData("name", "Nicholas", function() {});
+let value = document.body.getUserData("name"); // 'Nicholas'
+```
+
+**setUserData()**的处理函数会在包含数据的节点被复制、删除、重命名或导入其他文档的时候执 行，可以在这时候决定如何处理用户数据。处理函数接收 5 个参数：表示操作类型的数值（1 代表复制， 2 代表导入，3 代表删除，4 代表重命名）、数据的键、数据的值、源节点和目标节点。删除节点时，源 节点为```null```；除复制外，目标节点都为```null```。
+
+```js
+let div = document.createElement("div");
+div.setUserData("name", "Nicholas", function(operation, key, value, src, dest) {
+  if (operation == 1) {
+    dest.setUserData(key, value, function() {});
+  }
+});
+
+let newDiv = div.cloneNode(true);
+console.log(newDiv.getUserData("name"));// "Nicholas"
+```
+
+iframe的相关属性
+
+- contentDocument
+- contentWindow
+
+```js
+const iframe = document.getElementById("myIframe");
+const iframeDoc = iframe.contentDocument;
+const iframeWindow = iframs.contentWindow;
+```
+
+### 样式
+
+document.defaultView.getComputedStyle(): 返回计算后的样式
+```js
+let myDiv = document.getElementById("myDiv");
+let computedStyle = document.defaultView.getComputedStyle(myDiv, null);
+```
+
+  
 
 ## 模块
 
@@ -282,12 +330,13 @@ UMD 是用来统一 Commonjs 和 AMD 的方案。
   return {};
 });
 ```
-UMD的实现是通过一个IIFE包裹逻辑，判断当前环境是Commonjs或AMD环境，并做处理，如果既不是Commonjs也不是AMD环境，则将模块挂载在全局对象（window）上。
+
+UMD 的实现是通过一个 IIFE 包裹逻辑，判断当前环境是 Commonjs 或 AMD 环境，并做处理，如果既不是 Commonjs 也不是 AMD 环境，则将模块挂载在全局对象（window）上。
 
 ### ES6 Module
 
-- 带有 type="module"属性的```<script>``` 标签会告诉浏览器相关代码应该作为模块执行，而不是作为传统的脚本执行.
-- 所有模块都会像```<script defer>```加载的脚本一样按顺序执行.
+- 带有 type="module"属性的`<script>` 标签会告诉浏览器相关代码应该作为模块执行，而不是作为传统的脚本执行.
+- 所有模块都会像`<script defer>`加载的脚本一样按顺序执行.
 - 同一个模块无论在一个页面中被加载多少次，也不管它是如何加载的，实际上都只会加载一次.
 
 #### 模块行为
@@ -299,7 +348,7 @@ UMD的实现是通过一个IIFE包裹逻辑，判断当前环境是Commonjs或AM
 - 模块可以请求加载其他模块
 - 支持循环依赖
 
-#### ES6模块额外特性
+#### ES6 模块额外特性
 
 - ES6 模块默认在严格模式下执行
 - ES6 模块不共享全局命名空间
@@ -310,4 +359,3 @@ UMD的实现是通过一个IIFE包裹逻辑，判断当前环境是Commonjs或AM
 ## Worker
 
 使用工作者线程，浏览器可以在原始页面环境之外再分配一个完全独立的二级子环境。这个子环境 不能与依赖单线程交互的 API（如 DOM）互操作，但可以与父环境并行执行代码。
-
