@@ -118,6 +118,6 @@ child3 render
 
 ## 4个child都没执行函数体
 
-当**点击Parent**按钮被点击时，由于react会从**rootFiber**开始更新，**rootFiber**前后props都是```null```,满足```oldProps === newProps```和其它三个条件,所以返回的**App组件**的Fiber直接复用，所以对于App组件，其新老props都是```{children: ...}```(这里两个{}是同一个对象),满足```oldProps === newProps```和其它三个条件，也会复用，即**不会执行App的render方法**，所以**Child2**不会执行，对于**Child1**和**App组件**一样,前后props都是**{children: ...}**,且满足其它三个条件。来到**Parent组件**，虽然其props都是```{children: ...}```但是其不满足第4个条件，所以会重新执行方法体，于是输出```parent render``,再看**Child3和Child4**,由于Parent组件的props没有变，其```props.children```中**Child3**和**Child4**的fiber都会复用，所以也会满足四个条件，所以他们不会很执行函数体，所以： **如果把parent中的props.children换成<Child3 /><Child4 />  的形式，则会调用他们的方法体**。
+当**点击Parent**按钮被点击时，由于react会从**rootFiber**开始更新，**rootFiber**前后props都是```null```,满足```oldProps === newProps```和其它三个条件,所以返回的**App组件**的Fiber直接复用，所以对于App组件，其新老props都是```{children: ...}```(这里两个{}是同一个对象),满足```oldProps === newProps```和其它三个条件，也会复用，即**不会执行App的render方法**，所以**Child2**不会执行，对于**Child1**和**App组件**一样,前后props都是**{children: ...}**,且满足其它三个条件。来到**Parent组件**，虽然其props都是```{children: ...}```但是其不满足第4个条件，所以会重新执行方法体，于是输出```parent render```,再看**Child3和Child4**,由于Parent组件的props没有变，其```props.children```中**Child3**和**Child4**的fiber都会复用，所以也会满足四个条件，所以他们不会很执行函数体，所以： **如果把parent中的props.children换成<Child3 /><Child4 />  的形式，则会调用他们的方法体**。
 
 
