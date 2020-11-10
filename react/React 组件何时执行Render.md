@@ -121,3 +121,9 @@ child3 render
 当**点击Parent**按钮被点击时，由于react会从**rootFiber**开始更新，**rootFiber**前后props都是```null```,满足```oldProps === newProps```和其它三个条件,所以返回的**App组件**的Fiber直接复用，所以对于App组件，其新老props都是```{children: ...}```(这里两个{}是同一个对象),满足```oldProps === newProps```和其它三个条件，也会复用，即**不会执行App的render方法**，所以**Child2**不会执行，对于**Child1**和**App组件**一样,前后props都是**{children: ...}**,且满足其它三个条件。来到**Parent组件**，虽然其props都是```{children: ...}```但是其不满足第4个条件，所以会重新执行方法体，于是输出```parent render```,再看**Child3和Child4**,由于Parent组件的props没有变，其```props.children```中**Child3**和**Child4**的fiber都会复用，所以也会满足四个条件，所以他们不会很执行函数体，所以： **如果把parent中的props.children换成<Child3 /><Child4 />  的形式，则会调用他们的方法体**。
 
 
+### 总结
+
+1，要搞清楚re-render和dom重新挂载的区别：
+- re-render 函数组件从新执行函数体，class组件重新执行render方法，在上述说的四个条件只要有一个不满足就会发生。
+- dom的重新挂载是在其**父节点**调和子节点时，发现某个节点的类型发生变化(key相同或者在子节点中的排序相同)，即：```child.elementType !== element.type```比如由div -> p, 或两个react组件的**引用**发生变化。那么react便不会复用这个子节点上次更新时的fiber,而会直接创建新的fiber，于是在commit阶段，会生成新的dom并挂载，**注意**：由于这个子节点的fiber是新建的，所有，这个子节点下面的所有节点都需要**重新挂载**
+
