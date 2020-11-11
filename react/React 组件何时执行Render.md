@@ -125,5 +125,5 @@ child3 render
 
 1，要搞清楚re-render和dom重新挂载的区别：
 - re-render 函数组件从新执行函数体，class组件重新执行render方法，在上述说的四个条件只要有一个不满足就会发生。
-- dom的重新挂载是在其**父节点**调和子节点时，发现某个节点的类型发生变化(key相同或者在子节点中的排序相同)，即：```child.elementType !== element.type```比如由div -> p, 或两个react组件的**引用**发生变化。那么react在创建这个节点的workInProgress时便不会复用它之前fiber的一些属性（包括child）,而会直接创建新的fiber，*于是在commit阶段，会生成新的dom并挂载*？，**注意**：由于这个子节点的fiber是新建的，所有，这个子节点下面的所有节点都需要**重新挂载**
+- dom的重新挂载是在其**父节点**调和子节点时，发现某个节点的类型发生变化(key相同或者在子节点中的排序相同)，即：```child.elementType !== element.type```比如由div -> p, 或两个react组件的**引用**发生变化。那么react在创建这个节点的workInProgress时便不会复用它之前fiber的一些属性（包括child）,而会直接创建新的fiber（fiber.stateNode === null），**注意**：由于这个子节点的fiber是新建的，所有，这个子节点下面的所有节点都需要**重新挂载**
 
