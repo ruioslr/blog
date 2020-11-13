@@ -1,12 +1,12 @@
 ---
-title: React reconciler注意点
+title: React reconciler注意
 categories:
  - React
 tags:
  - React
 ---
 
-# React reconciler注意点
+# React reconciler注意
 
 
 ## reconcile
