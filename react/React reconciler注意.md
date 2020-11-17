@@ -29,7 +29,7 @@ re-render指的是class组件执行render方法或者functional组件执行函�
 
 会导致dom重新加载的原因是**对应位置（对应key,没有key则是index）**的type发生变化。因为在reconciler这个fiber时，如果type变化，则直接创建新的fiber，这个fiber的stateNode === null。
 
-::: tips
+::: tip
 发送dom重载的节点其子节点都会重载
 ::: 
 
