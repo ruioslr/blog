@@ -11,7 +11,8 @@ module.exports = {
       logo: '/logo.jpg',
       lastUpdated: 'Last Updated',
       nav: getNav(),
-      sidebar: getSidebar(),
+      // sidebar: getSidebar(),
+      sidebar: false,
       sidebarDepth: 5,
       blogConfig: {
         category: {
