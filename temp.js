@@ -1,20 +1,11 @@
-new Promise((resolve, reject) => {
-    console.log("外部promise");
-    resolve();
-  })
-    .then(() => {
-      console.log("外部第一个then");
-      new Promise((resolve, reject) => {
-        console.log("内部promise");
-        resolve();
-      })
-        .then(() => {
-          console.log("内部第一个then");
-        })
-        .then(() => {
-          console.log("内部第二个then");
-        });
+const promise = Promise.resolve('1');
+
+promise.then(() => {
+    return new Promise(res => {
+        throw 111
+        res(11);
     })
-    .then(() => {
-      console.log("外部第二个then");
-    });
+}).then((arg) => {
+    console.log('then');
+    console.log(arg)
+}).catch(arg => {console.log('rej'); console.log(arg)})
