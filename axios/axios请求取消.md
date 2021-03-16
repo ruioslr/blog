@@ -110,7 +110,8 @@ function cancel(message) {
 
 ```
 
-会判断是否有cancelToken,有则在**cancelToken.promise**的then上**注册**一个回调，这个回调会调用**xhr.abort()**取消请求。
+会判断是否有cancelToken,有则在**cancelToken.promise**的then上**注册**一个回调，这个回调会调用**xhr.abort()**取消请求，并调用**reject**使得这次调用被catch到。
+
 
 所以，当调用cancel方法时，会触发**cancelToken.promise**的then回调从而取消请求。
 
