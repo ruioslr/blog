@@ -1,9 +1,8 @@
-var myObj = {
-    name : " 极客时间 ", 
-    showThis: function(){
-      console.log(this)
-      function bar(){console.log(this)}
-      bar()
-    }
-  }
-  myObj.showThis()
+function foo(){
+    var a = 1
+    var b = a
+    a = 2
+    console.log(a)
+    console.log(b)
+}
+foo()
