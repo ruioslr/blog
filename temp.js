@@ -1,11 +1,9 @@
-const promise = Promise.resolve('1');
-
-promise.then(() => {
-    return new Promise(res => {
-        throw 111
-        res(11);
-    })
-}).then((arg) => {
-    console.log('then');
-    console.log(arg)
-}).catch(arg => {console.log('rej'); console.log(arg)})
+var myObj = {
+    name : " 极客时间 ", 
+    showThis: function(){
+      console.log(this)
+      function bar(){console.log(this)}
+      bar()
+    }
+  }
+  myObj.showThis()
