@@ -18,7 +18,7 @@ Promise 有三个状态 pending, fullild, rejected, 只能由 pending 向其他�
 - 1，then 方法的回调函数，是在promise resolve 后，被放到**（宏/微）任务队列中**，而不是直接执行。
 - 2，当执行 then 方法时，如果前面的 promise 已经是 resolved 状态，则**直接**将回调放入微任务队列中，（即： 一个promise里直接resolve(), 那么他后面的那个then会直接**放入队列**）
 - 3，当一个 promise 被 resolve （即： 执行resolve方法）时，会遍历之前通过 then 给这个 promise 注册的所有回调，将它们依次放入微**任务队列**中.
-- 4，当promiseA的第一个then 或 catch 返回promise（记为promiseB）时，promiseA的第二个then会等到promiseB完成后，才会把它的回调放入**任务队列**，回调的参数就是promiseB resolve或catch的的值; 如果promiseA的第一个then返回的是一个同步值或没有return（即return undefined）则会将promiseA的第二个then的回调函数放入**任务队列**，回调函数的参数就是第一个then回调的返回值。
+- 4，当promiseA的第一个then 或 catch 返回promise（记为promiseB）时，promiseA的后面的then会等到promiseB完成后，才会把它的回调放入**任务队列**，回调的参数就是promiseB resolve或catch的的值; 如果promiseA的第一个then返回的是一个同步值或没有return（即return undefined）则会将promiseA的第二个then的回调函数放入**任务队列**，回调函数的参数就是第一个then回调的返回值。
 - 5，promise的链式调用中，throw 一个错误，和return 一个Promise.reject，则走它后面的catch
 - 6, promise的状态不可逆。
 
