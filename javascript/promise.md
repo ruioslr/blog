@@ -18,9 +18,11 @@ Promise 有三个状态 pending, fullild, rejected, 只能由 pending 向其他�
 - 1，then 方法的回调函数，是在promise resolve 后，被放到**（宏/微）任务队列中**，而不是直接执行。
 - 2，当执行 then 方法时，如果前面的 promise 已经是 resolved 状态，则**直接**将回调放入微任务队列中，（即： 一个promise里直接resolve(), 那么他后面的那个then会直接**放入队列**）
 - 3，当一个 promise 被 resolve （即： 执行resolve方法）时，会遍历之前通过 then 给这个 promise 注册的所有回调，将它们依次放入微**任务队列**中.
-- 4，当promiseA的第一个then 或 catch 返回promise（记为promiseB）时，promiseA的第二个then会等到promiseB完成后，才会把它的回调放入**任务队列**，回调的参数就是promiseB resolve或catch的的值; 如果promiseA的第一个then返回的是一个同步值或没有return（即return undefined）则会将promiseA的第二个then的回调函数放入**任务队列**，回调函数的参数就是第一个then回调的返回值。
-- 5，promise的链式调用中，throw 一个错误，和return 一个Promise.reject，则走它后面的catch
-- 6, promise的状态不可逆。
+- 4，当promiseA的第一个then 或 catch 返回promise（记为promiseB）时，promiseA的后面的then会等到promiseB完成后，才会把它的回调放入**任务队列**，回调的参数就是promiseB resolve或catch的的值; 如果promiseA的第一个then返回的是一个同步值或没有return（即return undefined）则会将promiseA的第二个then的回调函数放入**任务队列**，回调函数的参数就是第一个then回调的返回值。
+- 5，promise的链式调用中，回调 throw 一个错误，和return 一个Promise.reject(), 会走后面的catch。
+- 6，promise链式调用中，每次回调执行默认都会返回一个promise，这个promise的状态取决去这个回调是否抛出异常，如果回调本身返回一个promise，则就用这个promise返回（第五点中，返回一个Promise.reject() 实际上是返回了一个reject的promise，所以会走catch）。
+- 8, promise链式调用中，如过没有对应的处理回调（即，resolve状态的promise，没有对应的then回调，reject状态的promise，没有catch回调）则会跳过链上不对应的then或catch，直到找到对应的then或catch，并将value或err传给它，而他后面的走哪个回调，取决于这个回调的返回值。（总结5，6，7就是： **promise then 或者catch之后，会返回一个新的promise，这个promise的状态取决于这次回调的返回值，或它有没有抛出异常**，如果没有对应的处理回调（没有then，或没有catch）则**它会透传这个promise**）
+- 7, promise的状态不可逆。
 
 ::: tip
 结论4和5无非是在说： promise之所以能链式调用，是因为then或catch方法会返回一个新的Promise，这个Promise的状态由then或catch回调函数的返回值确定：
