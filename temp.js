@@ -1,11 +1,24 @@
-const promise = new Promise((res, rej) => {
-    res(1);
-})
+function curry(func){
+    return function curried (...args){
+        if(args.length >= func.length){
+            return func.apply(this, args);
+        }else {
+            return function (...args2){
+                return curried.apply(this, args.concat(args2))
+            }
+        }
+    }
+}
 
-const promise2 = promise.then((val) => {
-    console.log(val);
-    throw 3;
-})
+function sum (a, b, c, d){
+    return a + b + c + d;
+}
 
+const a = curry(sum);
 
-promise2.catch(val => console.log(val)).catch(val => console.log(val)).then(val => console.log(val))
+console.log(a(1)(2)(3)(4))
+console.log(a(1)(2,3)(4))
+console.log(a(1)(2,3,4))
+console.log(a(1,2,3)(4))
+console.log(a(1,2,3,4))
+
