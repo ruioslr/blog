@@ -1,24 +1,23 @@
-function curry(func){
-    return function curried (...args){
-        if(args.length >= func.length){
-            return func.apply(this, args)
-        }else{
-            return function(...args2) {
-               return curried.apply(this, args.concat(args2));
-            }
-        }
-    }
+const dispatchEnhancer = [
+    next => () => {console.log('func1 start'); console.log(next.toString()); next(); console.log('func1 end')},
+    next => () => {console.log('func2 start'); console.log(next.toString()); next(); console.log('func2 end')},
+    next => () => {console.log('func3 start'); console.log(next.toString()); next(); console.log('func3 end')}
+].reduce((pre, item) => (...args) => pre(item(...args)))
+
+const dispatchAfterEnhancer = dispatchEnhancer(dispatch);
+
+function dispatch () {
+    console.log('dispatch')
 }
 
-function sum (a, b, c, d){
-    return a + b + c + d;
-}
+dispatchAfterEnhancer();
 
-const a = curry(sum);
+// 输出
 
-console.log(a(1)(2)(3)(4))
-console.log(a(1)(2,3)(4))
-console.log(a(1)(2,3,4))
-console.log(a(1,2,3)(4))
-console.log(a(1,2,3,4))
-
+// func1 start
+// func2 start
+// func3 start
+// dispatch
+// func3 end
+// func2 end
+// func1 end
