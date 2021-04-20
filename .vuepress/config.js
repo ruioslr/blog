@@ -4,6 +4,9 @@ module.exports = {
     title: 'Ruios',
     description: 'here is the blog of Ruios.',
     dest: 'dist/',
+    head: [
+      ['link', { rel: 'icon', href: '/favicon.ico' }]
+    ],
     plugins: ['@vuepress/back-to-top'],
     themeConfig: {
       type: 'blog',

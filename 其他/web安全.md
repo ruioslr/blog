@@ -1,7 +1,7 @@
 ---
 title: 其他
 categories:
-  - 其他 web安全
+  - 其他
 tags:
   - web安全
 ---

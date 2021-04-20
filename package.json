@@ -4,9 +4,10 @@
     "build": "vuepress build"
   },
   "devDependencies": {
-    "vuepress": "^1.1.0"
+    "vuepress": "1.1.0",
+    "webpack-dev-middleware": "^3.6.0"
   },
   "dependencies": {
-    "vuepress-theme-reco": "^1.5.5"
+    "vuepress-theme-reco": "1.5.5"
   }
 }
