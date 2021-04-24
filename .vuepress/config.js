@@ -8,6 +8,10 @@ module.exports = {
       ['link', { rel: 'icon', href: '/favicon.ico' }]
     ],
     plugins: ['@vuepress/back-to-top'],
+    chainWebpack: (config) => {
+      // 关闭webpack的压缩，谷歌服务器压缩太慢了
+      config.optimization.minimize(false);
+    },
     themeConfig: {
       type: 'blog',
       authorAvatar: '/logo.jpg',
