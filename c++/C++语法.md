@@ -29,7 +29,7 @@ tags:
     - gcc a.o -o a.exe
 
 
-![程序编译过程](../asserts/img/C-bainyi.png)
+![程序编译过程](../asserts/img/C-bianyi.png)
 
 ![程序执行过程](../asserts/img/C-zhixin.png)
 
@@ -46,7 +46,7 @@ tags:
 - 对被复制的指针操作，间接操作数组
 - 通过```*p = xxx; *(p + 1) = xxx```的方式可以改变数组项的值
 
-```c++
+```c
 int arr[10];
 int *p = arr;
 
@@ -65,7 +65,7 @@ for(int i = 0; i < 10; i++)
 
 一个变量定义之后可以在整个项目多文件中使用，但是需要先声明
 
-```c++
+```c
 extern int a;
 ```
 
@@ -76,7 +76,7 @@ extern int a;
 
 ## 变量的作用域和生命周期
 
-![变量的作用域和生命周期](../asserts/img/C-var.png)
+![变量的作用域和生命周期](../asserts/img/C-var.jpg)
 
 
  
