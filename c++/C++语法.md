@@ -89,8 +89,8 @@ extern int a;
 ## 复合数据类型
 
 ### 结构体
-定义： 
-```c
+结构体的定义和使用： 
+```c++
 struct Ruios{
     char name[21];
     unsigned int age;
@@ -98,16 +98,50 @@ struct Ruios{
     char sex;
 };
 
-int main() {
-//     使用结构体： 用顺序
+int main(){
+//使用结构体： 用顺序
    struct Ruios ruios = {"lirui", 26, "13085274870", 'm'};
-//     使用结构体，不用顺序
+//使用结构体，不用顺序
    struct Ruios ruios = {.sex = 'M', .age = 26, .name = "lirui", .tel = "13085274870"};
+   return 0;
 }
 
 
 ```
 ### 共用体
+
+共用体的定义和使用：
+```c++
+
+union vars {
+    int a;
+    short b;
+    unsigned int c;
+    long d;
+} var;
+
+int main() {
+    var.a = 1;
+    var.b = 2;
+    var.c = 3;
+    var.d = 4;
+    cout << var.a<< endl;
+    cout << var.b<< endl;
+    cout << var.c<< endl;
+    cout << var.d<< endl;
+
+    // 结构体的值取决于它的成员的最后一次赋值
+
+    // 4
+    // 4   
+    // 4
+    // 4
+}
+
+```
+
+
+共用体的内存大小： 先找最大的数据类型，再看成员中占的最大的内存是否是最大数据类型的倍数
 
 ### 枚举
 
