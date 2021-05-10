@@ -145,6 +145,24 @@ int main() {
 
 ### 枚举
 
+枚举的定义和使用：
+
+```c++
+
+enum colors {
+    red, blue, yellow
+};
+
+int main() {
+    enum colors color1 = red;
+    enum colors colors = blue;
+}
+```
+
+::: tip
+当枚举的某个值被赋值后，后面的值增加1
+::: 
+
 
  
 
