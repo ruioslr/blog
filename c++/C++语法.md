@@ -89,9 +89,24 @@ extern int a;
 ## 复合数据类型
 
 ### 结构体
+定义： 
+```c
+struct Ruios{
+    char name[21];
+    unsigned int age;
+    char tel[16];
+    char sex;
+};
+
+int main() {
+//     使用结构体： 用顺序
+   struct Ruios ruios = {"lirui", 26, "13085274870", 'm'};
+//     使用结构体，不用顺序
+   struct Ruios ruios = {.sex = 'M', .age = 26, .name = "lirui", .tel = "13085274870"};
+}
 
 
-
+```
 ### 共用体
 
 ### 枚举
