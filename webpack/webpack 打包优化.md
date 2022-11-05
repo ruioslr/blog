@@ -19,6 +19,6 @@ tags:
 
 - js 压缩
 - css 压缩 css-minimizer-webpack-Plugin 开发
-- 使用 import 语法资源懒加载
+- 使用 import 语法资源懒加载 将代码打包成多个bundle
 - 抽离公共依赖
 - css 文件分离 minicssExtractPlugin
