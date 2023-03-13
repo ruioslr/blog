@@ -13,7 +13,7 @@ services:
       # 数据卷 映射本地文件到容器
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./build:/usr/share/nginx/html
+      - ./dist:/usr/share/nginx/html
       - ./log:/var/log/nginx
     command: /bin/bash -c "nginx -g 'daemon off;'"
 #     networks:
