@@ -3,7 +3,7 @@ services:
   # 服务名称
   nginx:
     # 镜像:版本
-    image: nginx:1.18.0
+    image: nginx:latest
     container_name: risk-map-frontend
     # 映射容器80端口到本地80端口
     restart: always
