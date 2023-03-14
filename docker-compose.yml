@@ -6,7 +6,7 @@ services:
     image: nginx:latest
     container_name: blog_frontend
     # 映射容器80端口到本地80端口
-    restart: always
+    # restart: always
     # network_mode: 'host'
     ports:
       - '80:80'
