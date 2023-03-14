@@ -10,6 +10,7 @@ services:
     # 映射容器80端口到本地80端口
     ports:
       - '80:80'
+      - '443:443'
       # 数据卷 映射本地文件到容器
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
