@@ -138,7 +138,7 @@ const reduxImpl: ReduxImpl = (reducer, initial) => (set, _get, api) => {
 ### immer中间件
 
 ```ts
-const immerImpl: ImmerImpl = (initializer) => (set, get, store) => {
+const immerImpl: ImmerImpl = (initializer) => (set, get, store) => { 
   type T = ReturnType<typeof initializer>
 
   store.setState = (updater, replace, ...a) => {
