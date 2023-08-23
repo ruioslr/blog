@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nextjs/源码解析/nextjs源码解析.md" beforeDir="false" afterPath="$PROJECT_DIR$/nextjs/源码解析/nextjs源码解析.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/前端工具/rush/Rush的使用流程.md" beforeDir="false" afterPath="$PROJECT_DIR$/前端工具/rush/Rush的使用流程.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +64,7 @@
       <workItem from="1678695962721" duration="13026000" />
       <workItem from="1680172469409" duration="144000" />
       <workItem from="1689576646715" duration="178000" />
-      <workItem from="1692776806604" duration="803000" />
+      <workItem from="1692776806604" duration="1741000" />
     </task>
     <servers />
   </component>
