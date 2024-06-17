@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/前端工具/rush/Rush的使用流程.md" beforeDir="false" afterPath="$PROJECT_DIR$/前端工具/rush/Rush的使用流程.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/图形学/WebGL/1.WebGL编程指南学习笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/WebGL/1.WebGL编程指南学习笔记.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +17,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
-    <option name="projectConfigVersion" value="2" />
+    <option name="projectConfigVersion" value="5" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -42,6 +42,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -64,8 +65,21 @@
       <workItem from="1678695962721" duration="13026000" />
       <workItem from="1680172469409" duration="144000" />
       <workItem from="1689576646715" duration="178000" />
-      <workItem from="1692776806604" duration="1741000" />
+      <workItem from="1692776806604" duration="1770000" />
+      <workItem from="1698992116729" duration="4438000" />
+      <workItem from="1713773582293" duration="3386000" />
+      <workItem from="1714099293805" duration="5665000" />
+      <workItem from="1715148947040" duration="57000" />
+      <workItem from="1715149102225" duration="7529000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: update">
+      <created>1692779651360</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1692779651360</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -106,6 +120,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="feat: update" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update" />
   </component>
 </project>
