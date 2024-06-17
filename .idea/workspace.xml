@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/图形学/WebGL/2,LearnOpenGL学习笔记.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/图形学/WebGL/1.WebGL编程指南学习笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/WebGL/1.WebGL编程指南学习笔记.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +71,7 @@
       <workItem from="1714099293805" duration="5665000" />
       <workItem from="1715148947040" duration="57000" />
       <workItem from="1715149102225" duration="7529000" />
+      <workItem from="1718593162048" duration="9313000" />
     </task>
     <task id="LOCAL-00001" summary="feat: update">
       <created>1692779651360</created>
