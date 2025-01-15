@@ -8,6 +8,9 @@ tags:
 
 # LearnOpenGL学习笔记
 
+## 几个坐标系
+![img_10.png](img_10.png)
+
 ## 图元
 
 - GL_POINTS

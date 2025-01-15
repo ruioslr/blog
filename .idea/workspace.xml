@@ -5,55 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="feat: update">
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_25.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_27.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_28.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/imgs/img_9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/渲染管线概述.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/游戏开发中的数学（基础版）.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/学习笔记/img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/学习笔记/img_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/学习笔记/img_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/Games104/1.引擎架构分层.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_10.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/图形学/WebGL/2,LearnOpenGL学习笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/WebGL/2,LearnOpenGL学习笔记.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/图形学/计算机图形学.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/计算机图形学.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +126,7 @@
       <workItem from="1736221454210" duration="3040000" />
       <workItem from="1736415175058" duration="25000" />
       <workItem from="1736418920561" duration="3445000" />
-      <workItem from="1736477567296" duration="10005000" />
+      <workItem from="1736477567296" duration="25206000" />
     </task>
     <task id="LOCAL-00001" summary="feat: update">
       <created>1692779651360</created>
