@@ -5,10 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="feat: update">
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/1.引擎架构分层.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/WebGL/img_10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/Games104/3.游戏中的大气和云.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/Games104/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/图形学/WebGL/2,LearnOpenGL学习笔记.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/WebGL/2,LearnOpenGL学习笔记.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/图形学/Games104/2.渲染系统.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/Games104/2.渲染系统.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +129,7 @@
       <workItem from="1736221454210" duration="3040000" />
       <workItem from="1736415175058" duration="25000" />
       <workItem from="1736418920561" duration="3445000" />
-      <workItem from="1736477567296" duration="25206000" />
+      <workItem from="1736477567296" duration="41536000" />
     </task>
     <task id="LOCAL-00001" summary="feat: update">
       <created>1692779651360</created>
