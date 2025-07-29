@@ -5,16 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="feat: update">
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/4.游戏中渲染管线、后处理和其它的一切.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/Games104/img_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/Threejs学习.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/图形学/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/React Filber 架构简介.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/typescript/demo.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/图形学/Games104/3.游戏中的大气和云.md" beforeDir="false" afterPath="$PROJECT_DIR$/图形学/Games104/3.游戏中的大气和云.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/typescript/ts中常用的类型.md" beforeDir="false" afterPath="$PROJECT_DIR$/typescript/ts中常用的类型.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack/wepback Loader开发.md" beforeDir="false" afterPath="$PROJECT_DIR$/webpack/wepback Loader开发.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,27 +41,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/admin/Study/blog/图形学/imgs&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/lirui/Study/blog/react",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/react" />
       <recent name="$PROJECT_DIR$/图形学/imgs" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -137,6 +133,10 @@
       <workItem from="1737429191152" duration="3074000" />
       <workItem from="1739428722087" duration="11578000" />
       <workItem from="1739760557650" duration="11698000" />
+      <workItem from="1741709548838" duration="599000" />
+      <workItem from="1741874352587" duration="5000" />
+      <workItem from="1749621800340" duration="1073000" />
+      <workItem from="1750479455413" duration="13940000" />
     </task>
     <task id="LOCAL-00001" summary="feat: update">
       <created>1692779651360</created>
