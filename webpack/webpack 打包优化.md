@@ -11,14 +11,15 @@ tags:
 ## 构建时间优化
 
 - 开启多进程打包 thread-loader
+- 使用swc
 - 优化 resolve 配置
   - modules , includes, exculdes， 减少 webpack 解析范围
 - 缓存，dll，cache-loader， webpack5 自带 无需配置
 
 ## 构建体积优化
-
 - js 压缩
 - css 压缩 css-minimizer-webpack-Plugin 开发
 - 使用 import 语法资源懒加载 将代码打包成多个bundle
-- 抽离公共依赖
+- 使用externals抽离公共依赖
 - css 文件分离 minicssExtractPlugin
+- splitChunksPlugin：代码分割，分割import()语法，分割node_modules里的代码，分割公共代码
