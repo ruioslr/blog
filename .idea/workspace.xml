@@ -5,18 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7cf65937-a862-4756-8664-ecadc4fa4ab9" name="Default Changelist" comment="feat: update">
-      <change afterPath="$PROJECT_DIR$/javascript/demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webpack/npm知识.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/面试题整理/主观题.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/AI相关名词解释.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/Claude Code 源码分析.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AI/img_7.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/React 18 新特性.md" beforeDir="false" afterPath="$PROJECT_DIR$/react/React 18 新特性.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/react/源码解析/5.React Hooks实现原理.md" beforeDir="false" afterPath="$PROJECT_DIR$/react/源码解析/5.React Hooks实现原理.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/typescript/demo.ts" beforeDir="false" afterPath="$PROJECT_DIR$/typescript/demo.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack/webpack 打包优化.md" beforeDir="false" afterPath="$PROJECT_DIR$/webpack/webpack 打包优化.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack/webpack简述.md" beforeDir="false" afterPath="$PROJECT_DIR$/webpack/webpack简述.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/计算机网络/http.md" beforeDir="false" afterPath="$PROJECT_DIR$/计算机网络/http.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/计算机网络/计算机网络总览.md" beforeDir="false" afterPath="$PROJECT_DIR$/计算机网络/计算机网络总览.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/面试题整理/面试题整理.md" beforeDir="false" afterPath="$PROJECT_DIR$/面试题整理/面试题整理.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/面试题整理/主观题.md" beforeDir="false" afterPath="$PROJECT_DIR$/面试题整理/主观题.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,10 +52,13 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "WebServerToolWindowFactoryState": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/lirui/Study/blog/javascript",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -63,7 +66,8 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -80,7 +84,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-WS-252.26830.93" />
       </set>
     </attachedChunks>
   </component>
@@ -145,6 +149,8 @@
       <workItem from="1741874352587" duration="5000" />
       <workItem from="1749621800340" duration="1073000" />
       <workItem from="1750479455413" duration="60860000" />
+      <workItem from="1757511004945" duration="277000" />
+      <workItem from="1775303169759" duration="8871000" />
     </task>
     <task id="LOCAL-00001" summary="feat: update">
       <created>1692779651360</created>
